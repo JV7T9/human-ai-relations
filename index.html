@@ -1,0 +1,1754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A structural account of modern AI as infrastructure that had to crystallize before the systems could exist: its layers, degrees of freedom, and the conditions that would weaken the model.">
+    <meta name="author" content="JV7T9">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Human-AI Relations: Mapping the Structural Stack">
+    <meta property="og:description" content="A structural account of modern AI as infrastructure that had to crystallize before the systems could exist: its layers, degrees of freedom, and the conditions that would weaken the model.">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Human-AI Relations: Mapping the Structural Stack">
+    <meta name="twitter:description" content="A structural account of modern AI as infrastructure that had to crystallize before the systems could exist: its layers, degrees of freedom, and the conditions that would weaken the model.">
+    <title>Human-AI Relations: Mapping the Structural Stack — By JV7T9</title>
+    <link href="https://fonts.googleapis.com/css2?family=Michroma&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <!-- React & Three.js Libraries for the Widget -->
+    <script type="module" crossorigin>
+import { jsxs, jsx } from 'https://widgetlibs.static.usercontent.goog/react/jsx-runtime-Dc9ViRTo.js';
+import React, { useRef, useState, useEffect } from 'https://widgetlibs.static.usercontent.goog/react-Dd1pKoqe.js';
+import ReactDOM from 'https://widgetlibs.static.usercontent.goog/react-dom/client-BTuQ-l8_.js';
+import * as THREE from 'https://widgetlibs.static.usercontent.goog/three-zJ0emrRB.js';
+import * as Slider from 'https://widgetlibs.static.usercontent.goog/@radix-ui/react-slider-DXk-CvUR.js';
+import * as ToggleGroup from 'https://widgetlibs.static.usercontent.goog/@radix-ui/react-toggle-group-SAzue8E6.js';
+
+true              &&(function polyfill() {
+	const relList = document.createElement("link").relList;
+	if (relList && relList.supports && relList.supports("modulepreload")) return;
+	for (const link of document.querySelectorAll("link[rel=\"modulepreload\"]")) processPreload(link);
+	new MutationObserver((mutations) => {
+		for (const mutation of mutations) {
+			if (mutation.type !== "childList") continue;
+			for (const node of mutation.addedNodes) if (node.tagName === "LINK" && node.rel === "modulepreload") processPreload(node);
+		}
+	}).observe(document, {
+		childList: true,
+		subtree: true
+	});
+	function getFetchOpts(link) {
+		const fetchOpts = {};
+		if (link.integrity) fetchOpts.integrity = link.integrity;
+		if (link.referrerPolicy) fetchOpts.referrerPolicy = link.referrerPolicy;
+		if (link.crossOrigin === "use-credentials") fetchOpts.credentials = "include";
+		else if (link.crossOrigin === "anonymous") fetchOpts.credentials = "omit";
+		else fetchOpts.credentials = "same-origin";
+		return fetchOpts;
+	}
+	function processPreload(link) {
+		if (link.ep) return;
+		link.ep = true;
+		const fetchOpts = getFetchOpts(link);
+		fetch(link.href, fetchOpts);
+	}
+}());
+
+const LAYERS = [
+  { id: "physical", label: "Physical Infrastructure", color: "#38bdf8" },
+  { id: "compute", label: "Compute & Transport", color: "#818cf8" },
+  { id: "models", label: "Data & Models", color: "#34d399" },
+  { id: "agents", label: "Agent Systems", color: "#f472b6" },
+  { id: "institutional", label: "Institutional Systems", color: "#fbbf24" },
+  { id: "human", label: "Human Objectives", color: "#fb7185" }
+];
+
+const STATE_METRICS = [
+  {
+    id: "infra",
+    label: "Infrastructure Resilience",
+    hint: "Stability of the physical and computational substrate"
+  },
+  {
+    id: "cross",
+    label: "Cross-Layer Translation",
+    hint: "Ability of influence to move between layers"
+  },
+  {
+    id: "agent",
+    label: "Agent Coordination",
+    hint: "Degree of autonomous system interaction"
+  },
+  {
+    id: "mutation",
+    label: "Evolutionary Pressure",
+    hint: "Rate of adaptation within established systems"
+  }
+];
+
+
+function App() {
+  const canvasRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [metrics, setMetrics] = useState({
+    infra: 0.972,
+    cross: 0.841,
+    agent: 0.723,
+    mutation: 0.618
+  });
+const [layers, setLayers] = useState({
+  physical: true,
+  compute: true,
+  models: true,
+  agents: true,
+  institutional: true,
+  human: true
+});
+  const [direction, setDirection] = useState("forward");
+  // Speed: -1 (slowest) .. 0 (default) .. +1 (fastest)
+  const [speed, setSpeed] = useState(0);
+  const [openSections, setOpenSections] = useState({ state: true, layers: false });
+  const [expanded, setExpanded] = useState(false);
+
+  // Enlarged mode: lock page scroll behind the overlay and close on Esc
+  useEffect(() => {
+    if (!expanded) return;
+    document.body.classList.add("wg-expanded");
+    const onKey = (e) => {
+      if (e.key === "Escape") setExpanded(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.classList.remove("wg-expanded");
+    };
+  }, [expanded]);
+
+  // The animation loop reads the latest control state from this ref.
+  const stateRef = useRef(null);
+  stateRef.current = { isPlaying, metrics, layers, direction, speed };
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(988191);
+    const width = canvas.clientWidth || 640;
+    const height = canvas.clientHeight || width * 0.5625;
+    const camera = new THREE.PerspectiveCamera(42, width / height, 0.1, 100);
+    camera.position.set(0, 10, 20);
+    camera.lookAt(0, 0, 0);
+    const renderer = new THREE.WebGLRenderer({
+      canvas,
+      antialias: true,
+      powerPreference: "high-performance"
+    });
+    renderer.setSize(width, height, false);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.NeutralToneMapping;
+    const rootGroup = new THREE.Group();
+    scene.add(rootGroup);
+    const hemiLight = new THREE.HemisphereLight(16777215, 1976635, 1.4);
+    scene.add(hemiLight);
+    const dirLight = new THREE.DirectionalLight(10859772, 2);
+    dirLight.position.set(10, 15, 12);
+    scene.add(dirLight);
+    const pointLight = new THREE.PointLight(3718648, 3.5, 30);
+    pointLight.position.set(0, 0, 0);
+    scene.add(pointLight);
+
+    // Visualised stack layers: 0 = Physical Infrastructure, 1 = Compute & Transport, 2 = Data & Models
+    const gearCenters = [
+      new THREE.Vector3(0, -0.6, 0),
+      new THREE.Vector3(-4.4, 2.2, 0.4),
+      new THREE.Vector3(4.4, 2.2, -0.4)
+    ];
+    const gearRadii = [4.2, 3.1, 3.1];
+    const gearNodeCounts = [28, 20, 20];
+    const gearSigns = [1, -1, -1];
+    const nodes = [];
+    const nodeSpheres = [];
+    const clusterMeshes = [[], [], []];
+    const sphereGeom = new THREE.SphereGeometry(0.24, 16, 16);
+    const clusterColors = [3718648, 8490232, 3462041];
+    const clusterMaterials = clusterColors.map(
+      (c) => new THREE.MeshStandardMaterial({
+        color: c,
+        roughness: 0.2,
+        metalness: 0.1,
+        emissive: c,
+        emissiveIntensity: 0.45
+      })
+    );
+    const hubGeoms = [];
+    const hubMats = [];
+    const ringGeoms = [];
+    const ringMats = [];
+    gearCenters.forEach((center, idx) => {
+      const hubGeom = new THREE.CylinderGeometry(0.7, 0.7, 0.35, 24);
+      const hubMat = new THREE.MeshStandardMaterial({
+        color: clusterColors[idx],
+        roughness: 0.3,
+        metalness: 0.2,
+        emissive: clusterColors[idx],
+        emissiveIntensity: 0.2
+      });
+      const hubMesh = new THREE.Mesh(hubGeom, hubMat);
+      hubMesh.position.copy(center);
+      hubMesh.rotation.x = Math.PI / 2;
+      rootGroup.add(hubMesh);
+      const ringGeom = new THREE.RingGeometry(gearRadii[idx] - 0.05, gearRadii[idx] + 0.05, 48);
+      const ringMat = new THREE.MeshBasicMaterial({
+        color: clusterColors[idx],
+        transparent: true,
+        opacity: 0.22,
+        side: THREE.DoubleSide
+      });
+      const ringMesh = new THREE.Mesh(ringGeom, ringMat);
+      ringMesh.position.copy(center);
+      rootGroup.add(ringMesh);
+      clusterMeshes[idx].push(hubMesh, ringMesh);
+      hubGeoms.push(hubGeom);
+      hubMats.push(hubMat);
+      ringGeoms.push(ringGeom);
+      ringMats.push(ringMat);
+    });
+    gearCenters.forEach((center, gIdx) => {
+      const count = gearNodeCounts[gIdx];
+      const radius = gearRadii[gIdx];
+      for (let i = 0; i < count; i++) {
+        const angle = i / count * Math.PI * 2;
+        const pos = new THREE.Vector3(
+          center.x + Math.cos(angle) * radius,
+          center.y + Math.sin(angle) * radius,
+          center.z + Math.sin(angle * 3) * 0.35
+        );
+        nodes.push({
+          pos,
+          cluster: gIdx,
+          angle,
+          speedMultiplier: gearSigns[gIdx] * (gearRadii[0] / radius)
+        });
+        const mesh = new THREE.Mesh(sphereGeom, clusterMaterials[gIdx]);
+        mesh.position.copy(pos);
+        rootGroup.add(mesh);
+        nodeSpheres.push(mesh);
+        clusterMeshes[gIdx].push(mesh);
+      }
+    });
+    const edges = [];
+    const totalNodes = nodes.length;
+    let startIndex = 0;
+    gearNodeCounts.forEach((count) => {
+      for (let i = 0; i < count; i++) {
+        const next = startIndex + (i + 1) % count;
+        edges.push({ a: startIndex + i, b: next, isInterCluster: false });
+        if (i % 3 === 0) {
+          const cross = startIndex + (i + Math.floor(count / 2)) % count;
+          if (startIndex + i < cross) {
+            edges.push({ a: startIndex + i, b: cross, isInterCluster: false });
+          }
+        }
+      }
+      startIndex += count;
+    });
+    for (let i = 0; i < totalNodes; i++) {
+      for (let j = i + 1; j < totalNodes; j++) {
+        if (nodes[i].cluster !== nodes[j].cluster) {
+          const dist = nodes[i].pos.distanceTo(nodes[j].pos);
+          if (dist < 2.5) {
+            edges.push({ a: i, b: j, isInterCluster: true });
+          }
+        }
+      }
+    }
+    const maxLineVerts = edges.length * 2 * 3;
+    const linePositions = new Float32Array(maxLineVerts);
+    const lineColors = new Float32Array(maxLineVerts);
+    const lineGeometry = new THREE.BufferGeometry();
+    lineGeometry.setAttribute("position", new THREE.BufferAttribute(linePositions, 3));
+    lineGeometry.setAttribute("color", new THREE.BufferAttribute(lineColors, 3));
+    const lineMaterial = new THREE.LineBasicMaterial({
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.7,
+      blending: THREE.AdditiveBlending
+    });
+    const lineMesh = new THREE.LineSegments(lineGeometry, lineMaterial);
+    rootGroup.add(lineMesh);
+
+    // Agent Networks: impulses travelling along the lattice edges
+    const impulseCount = 90;
+    const impulseGeom = new THREE.BufferGeometry();
+    const impulsePositions = new Float32Array(impulseCount * 3);
+    const impulses = [];
+    for (let p = 0; p < impulseCount; p++) {
+      impulses.push({
+        edgeIndex: Math.floor(Math.random() * edges.length),
+        progress: Math.random(),
+        speed: 0.4 + Math.random() * 0.8,
+        reversed: Math.random() > 0.5
+      });
+    }
+    impulseGeom.setAttribute("position", new THREE.BufferAttribute(impulsePositions, 3));
+    const makeParticleTexture = () => {
+      const pCanvas = document.createElement("canvas");
+      pCanvas.width = 64;
+      pCanvas.height = 64;
+      const ctx = pCanvas.getContext("2d");
+      if (ctx) {
+        const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+        gradient.addColorStop(0, "rgba(255, 255, 255, 1)");
+        gradient.addColorStop(0.3, "rgba(249, 168, 212, 0.85)");
+        gradient.addColorStop(0.8, "rgba(244, 114, 182, 0.2)");
+        gradient.addColorStop(1, "rgba(15, 23, 42, 0)");
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, 64, 64);
+      }
+      return new THREE.CanvasTexture(pCanvas);
+    };
+    const particleTexture = makeParticleTexture();
+    const particleMaterial = new THREE.PointsMaterial({
+      size: 0.55,
+      map: particleTexture,
+      transparent: true,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false
+    });
+    const particlePoints = new THREE.Points(impulseGeom, particleMaterial);
+    rootGroup.add(particlePoints);
+
+    let isDragging = false;
+    let prevMouseX = 0;
+    let prevMouseY = 0;
+    let rotVelX = 0;
+    let rotVelY = 0;
+    const onPointerDown = (e) => {
+      if (e.target.closest("button")) return;
+      isDragging = true;
+      prevMouseX = e.clientX;
+      prevMouseY = e.clientY;
+      rotVelX = 0;
+      rotVelY = 0;
+    };
+    const onPointerMove = (e) => {
+      if (!isDragging) return;
+      const dx = e.clientX - prevMouseX;
+      const dy = e.clientY - prevMouseY;
+      prevMouseX = e.clientX;
+      prevMouseY = e.clientY;
+      rootGroup.rotation.y += dx * 7e-3;
+      rootGroup.rotation.x += dy * 7e-3;
+      rotVelY = dx * 7e-3;
+      rotVelX = dy * 7e-3;
+    };
+    const onPointerUp = () => {
+      isDragging = false;
+    };
+    canvas.addEventListener("pointerdown", onPointerDown);
+    window.addEventListener("pointermove", onPointerMove);
+    window.addEventListener("pointerup", onPointerUp);
+    const handleResize = () => {
+      if (!canvas) return;
+      const w = canvas.clientWidth;
+      const h = canvas.clientHeight;
+      if (w === 0 || h === 0) return;
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w, h, false);
+    };
+    const resizeObserver = new ResizeObserver(handleResize);
+    resizeObserver.observe(canvas);
+    handleResize();
+
+    let frameId;
+    let lastTime = performance.now();
+    let currentGlobalPhase = 0;
+    const baseSpeed = 1.2;
+    const tick = (now) => {
+      const delta = Math.min((now - lastTime) / 1e3, 0.1);
+      lastTime = now;
+      const st = stateRef.current;
+      const { infra, cross, agent, mutation } = st.metrics;
+      const L = st.layers;
+      const layerOn = [L.physical,L.compute,L.models];
+      const dirMultiplier = st.direction === "forward" ? 1 : -1;
+      // 0 = default pace; -1 = quarter speed; +1 = 4x speed
+      const speedScale = Math.pow(4, st.speed);
+
+      // Layer toggles apply even while paused
+      clusterMeshes.forEach((meshes, ci) => {
+        meshes.forEach((m) => {
+          m.visible = layerOn[ci];
+        });
+      });
+      particlePoints.visible = L.agents;
+
+      if (st.isPlaying) {
+        currentGlobalPhase += delta * baseSpeed * speedScale * dirMultiplier;
+        if (!isDragging) {
+          rootGroup.rotation.y += 3e-3 * speedScale + rotVelY;
+          rootGroup.rotation.x += rotVelX;
+          rotVelX *= 0.94;
+          rotVelY *= 0.94;
+        }
+        // Infrastructure: how solid and bright the lattice reads
+        lineMaterial.opacity = 0.25 + 0.55 * infra;
+        pointLight.intensity = 1 + 3 * infra;
+        // Mutation Pressure: variation within the saturated layers
+        nodes.forEach((node, idx) => {
+          const center = gearCenters[node.cluster];
+          const radius = gearRadii[node.cluster];
+          const instantaneousAngle = node.angle + currentGlobalPhase * node.speedMultiplier;
+          const distortion = Math.sin(instantaneousAngle * 6 + currentGlobalPhase * 3) * 0.28 * mutation;
+          node.pos.x = center.x + Math.cos(instantaneousAngle) * (radius + distortion);
+          node.pos.y = center.y + Math.sin(instantaneousAngle) * (radius + distortion);
+          node.pos.z = center.z + Math.sin(instantaneousAngle * 3) * 0.45 * (1 + mutation * 0.5);
+          const sMesh = nodeSpheres[idx];
+          sMesh.position.copy(node.pos);
+          const pulseScale = 1 + Math.sin(instantaneousAngle * 4) * 0.2 * mutation;
+          sMesh.scale.setScalar(pulseScale);
+        });
+        let posIdx = 0;
+        let colIdx = 0;
+        edges.forEach((edge) => {
+          const nodeA = nodes[edge.a];
+          const nodeB = nodes[edge.b];
+          linePositions[posIdx++] = nodeA.pos.x;
+          linePositions[posIdx++] = nodeA.pos.y;
+          linePositions[posIdx++] = nodeA.pos.z;
+          linePositions[posIdx++] = nodeB.pos.x;
+          linePositions[posIdx++] = nodeB.pos.y;
+          linePositions[posIdx++] = nodeB.pos.z;
+          if (edge.isInterCluster) {
+            // Cross-Layer Influence edges, carried by Human Institutions (amber)
+            const on = L.human && layerOn[nodeA.cluster] && layerOn[nodeB.cluster] ? 1 : 0;
+            const intensity = (0.15 + 0.85 * cross) * on;
+            lineColors[colIdx++] = 0.98 * intensity;
+            lineColors[colIdx++] = 0.75 * intensity;
+            lineColors[colIdx++] = 0.14 * intensity;
+            lineColors[colIdx++] = 0.98 * intensity;
+            lineColors[colIdx++] = 0.75 * intensity;
+            lineColors[colIdx++] = 0.14 * intensity;
+          } else {
+            const on = layerOn[nodeA.cluster] ? 0.5 : 0;
+            const col = new THREE.Color(clusterColors[nodeA.cluster]);
+            lineColors[colIdx++] = col.r * on;
+            lineColors[colIdx++] = col.g * on;
+            lineColors[colIdx++] = col.b * on;
+            lineColors[colIdx++] = col.r * on;
+            lineColors[colIdx++] = col.g * on;
+            lineColors[colIdx++] = col.b * on;
+          }
+        });
+        lineGeometry.attributes.position.needsUpdate = true;
+        lineGeometry.attributes.color.needsUpdate = true;
+
+        // Agent Autonomy: how many impulses travel, and how fast
+        impulseGeom.setDrawRange(0, Math.max(1, Math.round(impulseCount * agent)));
+        const impPos = impulsePositions;
+        const speedFactor = (0.8 + cross * 1.5) * (0.5 + agent * 1.5) * 0.7 * speedScale;
+        for (let p = 0; p < impulseCount; p++) {
+          const imp = impulses[p];
+          imp.progress += delta * imp.speed * speedFactor;
+          if (imp.progress > 1) {
+            imp.progress = 0;
+            imp.edgeIndex = Math.floor(Math.random() * edges.length);
+          }
+          const edge = edges[imp.edgeIndex];
+          const rev = imp.reversed !== (dirMultiplier < 0);
+          const nA = rev ? nodes[edge.b].pos : nodes[edge.a].pos;
+          const nB = rev ? nodes[edge.a].pos : nodes[edge.b].pos;
+          impPos[p * 3] = nA.x + (nB.x - nA.x) * imp.progress;
+          impPos[p * 3 + 1] = nA.y + (nB.y - nA.y) * imp.progress;
+          impPos[p * 3 + 2] = nA.z + (nB.z - nA.z) * imp.progress;
+        }
+        impulseGeom.attributes.position.needsUpdate = true;
+      }
+      renderer.render(scene, camera);
+      frameId = requestAnimationFrame(tick);
+    };
+    frameId = requestAnimationFrame(tick);
+    return () => {
+      cancelAnimationFrame(frameId);
+      resizeObserver.disconnect();
+      canvas.removeEventListener("pointerdown", onPointerDown);
+      window.removeEventListener("pointermove", onPointerMove);
+      window.removeEventListener("pointerup", onPointerUp);
+      renderer.dispose();
+      lineGeometry.dispose();
+      lineMaterial.dispose();
+      impulseGeom.dispose();
+      particleMaterial.dispose();
+      particleTexture.dispose();
+      sphereGeom.dispose();
+      clusterMaterials.forEach((m) => m.dispose());
+      hubGeoms.forEach((g) => g.dispose());
+      hubMats.forEach((m) => m.dispose());
+      ringGeoms.forEach((g) => g.dispose());
+      ringMats.forEach((m) => m.dispose());
+    };
+  }, []);
+
+  const setMetric = (id, value) => setMetrics((prev) => ({ ...prev, [id]: value }));
+  const toggleLayer = (id) => setLayers((prev) => ({ ...prev, [id]: !prev[id] }));
+
+  return /* @__PURE__ */ jsx("div", {
+    className: "wg-root" + (expanded ? " is-expanded" : ""),
+    onMouseDown: (e) => {
+      // clicking the dimmed backdrop (outside the panel) closes the enlarged view
+      if (expanded && e.target === e.currentTarget) setExpanded(false);
+    },
+    children: /* @__PURE__ */ jsxs("div", {
+      className: "wg-shell",
+      role: expanded ? "dialog" : void 0,
+      "aria-modal": expanded ? "true" : void 0,
+      "aria-label": expanded ? "Structural stack simulation, enlarged" : void 0,
+      children: [
+    /* @__PURE__ */ jsxs("div", { className: "wg-stage", children: [
+      /* @__PURE__ */ jsx(
+        "canvas",
+        {
+          ref: canvasRef,
+          role: "img",
+          "aria-label": "Interactive 3D particle network simulation of the structural stack",
+          className: "wg-canvas"
+        }
+      ),
+      /* @__PURE__ */ jsx(
+        "button",
+        {
+          type: "button",
+          onClick: () => setExpanded((prev) => !prev),
+          "aria-label": expanded ? "Close enlarged view" : "Enlarge simulation",
+          "aria-pressed": expanded,
+          title: expanded ? "Close (Esc)" : "Enlarge",
+          className: "wg-expand",
+          children: /* @__PURE__ */ jsx("span", { className: "material-icons", children: expanded ? "fullscreen_exit" : "fullscreen" })
+        }
+      ),
+      /* @__PURE__ */ jsx(
+        "button",
+        {
+          type: "button",
+          onClick: () => setIsPlaying((prev) => !prev),
+          "aria-label": isPlaying ? "Pause animation" : "Play animation",
+          className: "wg-play",
+          children: /* @__PURE__ */ jsx("span", { className: "material-icons", children: isPlaying ? "pause" : "play_arrow" })
+        }
+      )
+    ] }),
+
+    /* @__PURE__ */ jsxs("div", { className: "wg-controls", children: [
+    /* @__PURE__ */ jsxs("details", {
+      className: "wg-section",
+      open: openSections.state,
+      onToggle: (e) => {
+        const isOpen = e.currentTarget.open;
+        setOpenSections((prev) => prev.state === isOpen ? prev : { ...prev, state: isOpen });
+      },
+      children: [
+      /* @__PURE__ */ jsx("summary", { className: "wg-summary", children: /* @__PURE__ */ jsx("span", { className: "wg-heading", children: "Structural State" }) }),
+      /* @__PURE__ */ jsxs("div", { className: "wg-body", children: [
+      STATE_METRICS.map((m) => /* @__PURE__ */ jsxs("div", { className: "wg-row", title: m.hint, children: [
+        /* @__PURE__ */ jsxs("div", { className: "wg-row-head", children: [
+          /* @__PURE__ */ jsx("span", { className: "wg-label", children: m.label }),
+          /* @__PURE__ */ jsxs("span", { className: "wg-value", children: [(metrics[m.id] * 100).toFixed(1), "%"] })
+        ] }),
+        /* @__PURE__ */ jsxs(
+          Slider.Root,
+          {
+            "aria-label": m.label,
+            className: "wg-slider",
+            value: [metrics[m.id]],
+            min: 0,
+            max: 1,
+            step: 1e-3,
+            onValueChange: (vals) => setMetric(m.id, vals[0]),
+            children: [
+              /* @__PURE__ */ jsx(Slider.Track, { className: "wg-track", children: /* @__PURE__ */ jsx(Slider.Range, { className: "wg-range" }) }),
+              /* @__PURE__ */ jsx(Slider.Thumb, { className: "wg-thumb", "aria-label": m.label + " handle" })
+            ]
+          }
+        )
+      ] }, m.id)),
+      /* @__PURE__ */ jsxs("div", { className: "wg-row", title: "Left slows the animation, right speeds it up, centre is the default pace", children: [
+        /* @__PURE__ */ jsxs("div", { className: "wg-row-head", children: [
+          /* @__PURE__ */ jsx("span", { className: "wg-label", children: "Speed" }),
+          /* @__PURE__ */ jsxs("span", { className: "wg-value", children: [
+            speed === 0 ? "0" : (speed > 0 ? "+" : "\u2212") + Math.abs(speed * 100).toFixed(0),
+            /* @__PURE__ */ jsxs("span", { className: "wg-sub", children: [" \u00b7 ", Math.pow(4, speed).toFixed(2), "\u00d7"] })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxs(
+          Slider.Root,
+          {
+            "aria-label": "Speed",
+            className: "wg-slider wg-slider-center",
+            value: [speed],
+            min: -1,
+            max: 1,
+            step: 0.01,
+            onValueChange: (vals) => setSpeed(Math.abs(vals[0]) < 0.04 ? 0 : vals[0]),
+            children: [
+              /* @__PURE__ */ jsxs(Slider.Track, { className: "wg-track", children: [
+                /* @__PURE__ */ jsx("span", { className: "wg-center-tick" }),
+                /* @__PURE__ */ jsx("span", { className: "wg-center-fill", style: {
+                  left: speed < 0 ? (50 + speed * 50) + "%" : "50%",
+                  width: Math.abs(speed) * 50 + "%"
+                } })
+              ] }),
+              /* @__PURE__ */ jsx(Slider.Thumb, { className: "wg-thumb", "aria-label": "Speed handle" })
+            ]
+          }
+        ),
+        /* @__PURE__ */ jsxs("div", { className: "wg-scale", "aria-hidden": "true", children: [
+          /* @__PURE__ */ jsx("span", { children: "Slower" }),
+          /* @__PURE__ */ jsx("span", { children: "Faster" })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxs("div", { className: "wg-row", children: [
+        /* @__PURE__ */ jsx("span", { className: "wg-label", children: "Flow Direction" }),
+        /* @__PURE__ */ jsxs(
+          ToggleGroup.Root,
+          {
+            type: "single",
+            value: direction,
+            onValueChange: (val) => {
+              if (val === "forward" || val === "reverse") setDirection(val);
+            },
+            "aria-label": "Direction of influence through the stack",
+            className: "wg-toggle",
+            children: [
+              /* @__PURE__ */ jsx(ToggleGroup.Item, { value: "forward", className: "wg-toggle-item", children: "Forward" }),
+              /* @__PURE__ */ jsx(ToggleGroup.Item, { value: "reverse", className: "wg-toggle-item", children: "Reverse" })
+            ]
+          }
+        )
+      ] })
+      ] })
+    ] }),
+
+    /* @__PURE__ */ jsxs("details", {
+      className: "wg-section",
+      open: openSections.layers,
+      onToggle: (e) => {
+        const isOpen = e.currentTarget.open;
+        setOpenSections((prev) => prev.layers === isOpen ? prev : { ...prev, layers: isOpen });
+      },
+      children: [
+      /* @__PURE__ */ jsx("summary", { className: "wg-summary", children: /* @__PURE__ */ jsx("span", { className: "wg-heading", children: "Active Layers" }) }),
+      /* @__PURE__ */ jsx("div", { className: "wg-body", children: /* @__PURE__ */ jsx("ul", { className: "wg-layers", children: LAYERS.map((l) => /* @__PURE__ */ jsx("li", { children: /* @__PURE__ */ jsxs(
+        "button",
+        {
+          type: "button",
+          className: "wg-layer" + (layers[l.id] ? " is-on" : ""),
+          "aria-pressed": layers[l.id],
+          onClick: () => toggleLayer(l.id),
+          style: { "--c": l.color },
+          children: [
+            /* @__PURE__ */ jsx("span", { className: "wg-dot" }),
+            /* @__PURE__ */ jsx("span", { children: l.label })
+          ]
+        }
+      ) }, l.id)) }) })
+    ] })
+    ] })
+      ]
+    })
+  });
+}
+
+ReactDOM.createRoot(document.getElementById("widget-root")).render(
+  /* @__PURE__ */ jsx(React.StrictMode, { children: /* @__PURE__ */ jsx(App, {}) })
+);
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --accent-color: #38bdf8;
+            --accent-glow: rgba(56, 189, 248, 0.15);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --font-display: 'Michroma', sans-serif;
+            --font-body: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            --primary: #38bdf8;
+            --muted: #334155;
+            --foreground: #e2e8f0;
+            --muted-foreground: #94a3b8;
+            --divider: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-y: auto;
+        }
+
+        .page-container {
+            max-width: 1700px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .content-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 450px;
+            gap: 2.5rem;
+            align-items: start;
+        }
+
+        .thesis-panel {
+            min-width: 0;
+        }
+
+        .feature-panel {
+            position: sticky;
+            top: 2rem;
+            align-self: start;
+        }
+
+        @media (max-width: 1100px) {
+
+            .content-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-panel {
+                position: relative;
+                top: auto;
+            }
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 0.5rem;
+            margin-top: -2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            background:
+            linear-gradient(
+               rgba(15,23,42,0.05),
+               rgba(15,23,42,0.05)
+            ),
+            url('Header.png');
+
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        h1, h2.section-title, .widget-header {
+            font-family: var(--font-display);
+            letter-spacing: 0.05em;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-family: var(--font-display);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: -0.5rem;
+        }
+
+        /* Interactive Widget Container placed right under the header */
+        .widget-section {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 2px;
+            margin-bottom: 3rem;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .widget-header {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.85rem;
+            color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(15, 23, 42, 0.6);
+        }
+
+        nav.toc {
+            margin-bottom: 1.25rem;
+        }
+
+        nav.toc .section-content {
+            padding-top: 0.5rem;
+        }
+
+        nav.toc ol {
+            margin: 0.75rem 0 0;
+            padding-left: 1.25rem;
+            columns: 2;
+        }
+
+        nav.toc li {
+            margin-bottom: 0.4rem;
+            font-size: 0.9rem;
+        }
+
+        nav.toc a {
+            color: var(--text-main);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        nav.toc a:hover {
+            color: var(--accent-color);
+        }
+
+        @media (max-width: 600px) {
+            nav.toc ol { columns: 1; }
+        }
+
+details.section-dropdown {
+    background: rgba(30, 41, 59, 0.35);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 2px;
+
+    margin-bottom: 1.25rem;
+
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+
+    overflow: hidden;
+
+    transition:
+        border-color 0.2s ease,
+        background-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+details.section-dropdown[open] {
+    border-color: var(--accent-color);
+
+    background: rgba(30, 41, 59, 0.45);
+
+    box-shadow:
+        0 0 20px rgba(56, 189, 248, 0.12),
+        0 10px 35px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+summary.section-title {
+    font-family: var(--font-display);
+    color: var(--accent-color);
+    font-size: 1rem;
+
+    background: rgba(255,255,255,0.02);
+
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+
+    list-style: none;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    user-select: none;
+
+    transition: all 0.25s ease;
+}
+
+        summary.section-title::-webkit-details-marker {
+            display: none;
+        }
+
+        summary.section-title::after {
+            content: '+';
+            font-size: 1.2rem;
+            font-weight: 300;
+            color: var(--accent-color);
+            transition: transform 0.2s ease;
+        }
+
+        details.section-dropdown[open] summary.section-title::after {
+            transform: rotate(45deg);
+        }
+
+summary.section-title:hover {
+    background: rgba(56, 189, 248, 0.08);
+}
+
+.section-content {
+    padding: 0 1.5rem 1.5rem 1.5rem;
+
+    border-top: 1px solid rgba(255,255,255,0.06);
+
+    background: rgba(15, 23, 42, 0.15);
+}
+
+        p {
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            color: var(--text-main);
+            font-size: 0.95rem;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        /* ---- Control panel (widget) ---- */
+        .wg-root {
+            width: 100%;
+            background: var(--card-bg);
+            color: var(--text-main);
+            user-select: none;
+        }
+
+        .wg-stage {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: #0f141f;
+            border-bottom: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .wg-canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            touch-action: none;
+            cursor: grab;
+        }
+
+        .wg-canvas:active { cursor: grabbing; }
+
+        .wg-play {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            width: 2.25rem;
+            height: 2.25rem;
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(30, 41, 59, 0.85);
+            color: #f1f5f9;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .wg-play:hover { background: #334155; }
+        .wg-play .material-icons { font-size: 1.1rem; }
+
+        .wg-section {
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .wg-section:last-child { border-bottom: none; }
+
+        .wg-summary {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.9rem 1.5rem;
+            list-style: none;
+            cursor: pointer;
+            user-select: none;
+            transition: background-color 0.2s ease;
+        }
+
+        .wg-summary::-webkit-details-marker { display: none; }
+
+        .wg-summary::after {
+            content: '+';
+            font-size: 1.2rem;
+            font-weight: 300;
+            line-height: 1;
+            color: var(--accent-color);
+            transition: transform 0.2s ease;
+        }
+
+        .wg-section[open] > .wg-summary::after { transform: rotate(45deg); }
+
+        .wg-summary:hover { background-color: rgba(56, 189, 248, 0.05); }
+
+        .wg-summary:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: -2px;
+        }
+
+        .wg-body {
+            padding: 0.25rem 1.5rem 1.25rem;
+        }
+
+        .wg-heading {
+            font-family: var(--font-display);
+            font-size: 0.7rem;
+            font-weight: 400;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent-color);
+        }
+
+        .wg-row { margin-bottom: 0.85rem; }
+        .wg-row:last-child { margin-bottom: 0; }
+
+        .wg-row-head {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .wg-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .wg-value {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-main);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .wg-slider {
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            height: 1.5rem;
+            touch-action: none;
+            cursor: pointer;
+        }
+
+        .wg-track {
+            position: relative;
+            flex-grow: 1;
+            height: 4px;
+            border-radius: 999px;
+            background: var(--muted);
+        }
+
+        .wg-range {
+            position: absolute;
+            height: 100%;
+            border-radius: 999px;
+            background: var(--primary);
+        }
+
+        .wg-thumb {
+            display: block;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--primary);
+            box-shadow: 0 0 0 4px var(--accent-glow);
+        }
+
+        .wg-thumb:focus-visible {
+            outline: 2px solid #fff;
+            outline-offset: 2px;
+        }
+
+        .wg-toggle {
+            display: flex;
+            margin-top: 0.4rem;
+            padding: 4px;
+            border-radius: 999px;
+            background: var(--muted);
+        }
+
+        .wg-toggle-item {
+            flex: 1;
+            padding: 0.3rem 0.75rem;
+            border: none;
+            border-radius: 999px;
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .wg-toggle-item:hover { color: var(--text-main); }
+
+        .wg-toggle-item[data-state="on"] {
+            background: var(--primary);
+            color: #0f172a;
+        }
+
+        .wg-layers {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .wg-layer {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            width: 100%;
+            padding: 0.45rem 0.5rem;
+            border: none;
+            border-radius: 8px;
+            background: transparent;
+            color: var(--text-muted);
+            font: inherit;
+            font-size: 0.9rem;
+            text-align: left;
+            cursor: pointer;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .wg-layer:hover { background: rgba(255, 255, 255, 0.04); }
+        .wg-layer.is-on { color: var(--text-main); }
+
+        .wg-layer:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 1px;
+        }
+
+        .wg-dot {
+            flex-shrink: 0;
+            width: 0.7rem;
+            height: 0.7rem;
+            border-radius: 50%;
+            border: 2px solid var(--c);
+            background: transparent;
+            transition: background-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .wg-layer.is-on .wg-dot {
+            background: var(--c);
+            box-shadow: 0 0 8px var(--c);
+        }
+
+        .wg-sub {
+            font-weight: 400;
+            color: var(--text-muted);
+        }
+
+        .wg-center-tick {
+            position: absolute;
+            left: 50%;
+            top: -4px;
+            width: 2px;
+            height: 12px;
+            margin-left: -1px;
+            border-radius: 1px;
+            background: var(--text-muted);
+        }
+
+        .wg-center-fill {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            border-radius: 999px;
+            background: var(--primary);
+        }
+
+        .wg-scale {
+            display: flex;
+            justify-content: space-between;
+            margin-top: -0.1rem;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        /* ---- Enlarge button + enlarged (overlay) mode ---- */
+        .wg-expand {
+            position: absolute;
+            top: 0.75rem;
+            right: 3.5rem;
+            width: 2.25rem;
+            height: 2.25rem;
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(30, 41, 59, 0.85);
+            color: #f1f5f9;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .wg-expand:hover { background: #334155; }
+        .wg-expand .material-icons { font-size: 1.25rem; }
+
+        .wg-expand:focus-visible,
+        .wg-play:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+        body.wg-expanded { overflow: hidden; }
+
+        /* a sticky parent would trap the fixed overlay; release it while enlarged */
+        body.wg-expanded .feature-panel { position: static; }
+
+        .wg-root.is-expanded {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3vh 3vw;
+            background: rgba(2, 6, 23, 0.85);
+        }
+
+        .wg-root.is-expanded .wg-shell {
+            display: flex;
+            width: 100%;
+            max-width: 1500px;
+            height: 100%;
+            max-height: 920px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 60px rgba(0, 0, 0, 0.6);
+        }
+
+        .wg-root.is-expanded .wg-stage {
+            flex: 1 1 auto;
+            min-width: 0;
+            aspect-ratio: auto;
+            border-bottom: none;
+            border-right: 1px solid var(--border-color);
+        }
+
+        .wg-root.is-expanded .wg-canvas {
+            position: absolute;
+            inset: 0;
+        }
+
+        .wg-root.is-expanded .wg-controls {
+            flex: 0 0 360px;
+            overflow-y: auto;
+        }
+
+        @media (max-width: 800px) {
+            .wg-root.is-expanded { padding: 0; }
+
+            .wg-root.is-expanded .wg-shell {
+                flex-direction: column;
+                max-height: none;
+                border-radius: 0;
+                border: none;
+            }
+
+            .wg-root.is-expanded .wg-stage {
+                flex: 0 0 52%;
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            .wg-root.is-expanded .wg-controls {
+                flex: 1 1 auto;
+                min-height: 0;
+            }
+        }
+    
+        p a {
+            color: var(--accent-color);
+            text-decoration: underline;
+            text-underline-offset: 2px;
+            word-break: break-all;
+        }
+
+        p a:hover { text-decoration: none; }
+
+        details.section-dropdown[name="thesis"] {
+            scroll-margin-top: 1rem;
+        }
+
+        footer a {
+            color: var(--accent-color);
+            text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+
+        footer a:hover { text-decoration: none; }
+    </style>
+</head>
+<body>
+
+    <div class="page-container">
+        <!-- Header -->
+        <header>
+            <h1>HUMAN-AI&nbsp;&nbsp;RELATIONS</h1>
+            <div class="subtitle">Mapping the structural stack</div>
+            <div class="author"></div>
+        </header>
+
+        <!-- Interactive Widget Container placed right under the header -->
+<div class="content-layout">
+
+
+    <!-- LEFT PANEL -->
+    <main class="thesis-panel">
+
+<details class="section-dropdown">
+    <summary class="section-title">Abstract</summary>
+
+    <div class="section-content">
+
+        <p>
+        This thesis proposes that contemporary artificial intelligence is best understood not as a sequence of isolated technical breakthroughs but as the crystallization of a layered infrastructural stack. Modern AI emerged only after the convergence of physical, computational, informational, institutional, economic, and human-organizational preconditions. Once these conditions aligned, they formed a stable architecture within which subsequent development primarily occurs.
+        </p>
+
+        <p>
+        The paper introduces the concepts of Structural Layers, Cross-Layer Translation, Differential Degrees of Freedom, and Capacity-Based Retention as explanatory mechanisms for understanding technological evolution within the AI ecosystem. Historical case studies including GPU repurposing, large-scale web data accumulation, and the emergence of transformer architectures are used to illustrate how pre-existing systems converged into the current AI infrastructure.
+        </p>
+
+        <p>
+        Rather than treating AI as an isolated invention, the thesis presents it as a layered infrastructure whose future development remains shaped by path-dependent constraints, institutional pressures, and translation processes that move influence across levels of organization.
+        </p>
+
+    </div>
+</details>
+
+        <!-- Table of Contents -->
+        <nav class="toc" aria-label="Table of contents">
+            <details class="section-dropdown toc-dropdown">
+            <summary class="section-title">Table of Contents</summary>
+            <div class="section-content">
+            <ol>
+                <li><a href="#introduction">Introduction</a></li>
+                <li><a href="#relation-to-existing-literature">Relation to Existing Literature</a></li>
+                <li><a href="#necessary-preconditions">The Necessary Preconditions</a></li>
+                <li><a href="#formation-of-the-structural-stack">Formation of the Structural Stack</a></li>
+                <li><a href="#degrees-of-freedom">Degrees of Freedom</a></li>
+                <li><a href="#mutation-retention">Mutation & Retention</a></li>
+                <li><a href="#cross-layer-translation">Cross-Layer Translation</a></li>
+                <li><a href="#falsification">Conditions That Would Weaken the Model</a></li>
+                <li><a href="#implications">Implications</a></li>
+                <li><a href="#conclusion">Conclusion</a></li>
+            </ol>
+            </div>
+            </details>
+        </nav>
+
+            <details id="introduction" name="thesis" class="section-dropdown">
+                <summary class="section-title">1. Introduction</summary>
+                <div class="section-content">
+                    <p>Modern AI is often narrated as a sequence of technical breakthroughs: better algorithms, larger datasets, more compute. Those accounts are accurate as far as they go, yet they leave something important unstated. The systems that now exist became possible only after a broad set of independent conditions &mdash; physical, mathematical, informational, economic, institutional, and cultural &mdash; had already converged. Once that convergence occurred, the result was not merely a collection of tools but a layered structural infrastructure. That infrastructure is now stable enough to be mapped, and the mapping itself changes how further development can be understood.</p>
+                    <p>This thesis argues that the enabling conditions for contemporary AI were not supplied by a pre-given blueprint. They accumulated through separate lines of work that solved more local problems. When those lines finally cohered, they formed an interlocking stack whose layers can be named and whose constraints can be analyzed. Development since that crystallization has largely consisted of exploring the degrees of freedom available inside the already-laid architecture. Older methods persist alongside newer ones because the stack must remain inhabitable by participants of unequal capacity. Influence can move across layers, but it must do so within the structural limits that the stack itself imposes.</p>
+                    <p>The account that follows therefore treats modern AI less as an isolated invention and more as the visible surface of a deeper infrastructure that had to come into existence first. By making that infrastructure explicit, we gain a clearer view of why certain technical paths carry structural weight while others remain marginal, and why the present moment feels both saturated and still unfinished.</p>
+<h3>Research Questions</h3>
+
+<p>
+This thesis addresses four primary questions:
+</p>
+
+<ul>
+<li>How should modern AI be understood as a layered infrastructure?</li>
+<li>What preconditions were necessary for its emergence?</li>
+<li>How does influence move across structural layers?</li>
+<li>What constraints shape future development within the stack?</li>
+</ul>
+                </div>
+            </details>
+
+            <details id="relation-to-existing-literature" name="thesis" class="section-dropdown">
+                <summary class="section-title">2. Relation to Existing Literature</summary>
+                <div class="section-content">
+<p>
+The Structural Stack model builds upon a number of established traditions within the study of technological systems and socio-technical change.
+</p>
+
+<p>
+Thomas P. Hughes described large technological systems as interconnected infrastructures whose social, economic, and technical components co-evolve over time. Carlota Perez argued that technological revolutions emerge through clusters of mutually reinforcing innovations that reshape institutions and economies. W. Brian Arthur demonstrated how path dependence and increasing returns can reinforce particular technological trajectories once established.
+</p>
+
+<p>
+The present framework is complementary to these perspectives. Rather than focusing primarily on systems, paradigms, or path dependence individually, it seeks to explain how influence moves between layers once an infrastructure has crystallized into a stable architecture.
+</p>
+
+<p>
+The Structural Stack framework is also informed by
+Herbert Simon's work on hierarchical systems and
+complexity. Simon argued that complex systems often
+emerge through layered organization rather than
+through centralized design. This observation aligns
+with the argument presented here that AI emerged
+through convergence and subsequent crystallization
+rather than through a singular architectural plan.
+</p>
+                </div>
+            </details>
+
+
+
+            <details id="necessary-preconditions" name="thesis" class="section-dropdown">
+                <summary class="section-title">3. The Necessary Preconditions</summary>
+                <div class="section-content">
+                    <p>Modern AI did not emerge from a single decision or a unified plan. It became possible only after a series of independent conditions had been satisfied. Each condition developed for reasons of its own; none was created primarily to enable the systems that now exist. Their convergence, however, proved decisive. Once enough of them were in place, the structural infrastructure of contemporary AI could crystallize.</p>
+                    <p>The first and most binding precondition was the physical and manufacturing base. Reliable electricity, precision semiconductor fabrication, global logistics, and the industrial capacity to produce high-performance chips at scale formed the material foundation. Without this layer, the mathematical and algorithmic ideas would have remained theoretical. The physical plant had to exist before large-scale computation could become routine.</p>
+                    <p>Above the physical base sat the mathematical and algorithmic foundations. Linear algebra, probability, optimization, and information theory supplied the formal language. Specific techniques &mdash; neural networks, gradient-based learning, and later the transformer architecture &mdash; turned out to be especially effective at extracting patterns from data. These methods were refined over decades, often with limited practical impact, until the other preconditions matured enough to make them powerful.</p>
+                    <p>Data constituted a third necessary condition. Vast quantities of digitized human language, images, code, and behavior had to accumulate. Much of this data was generated for unrelated purposes: the growth of the web, the digitization of media, the rise of platforms, and the proliferation of sensors. Only later was it recognized as the raw material from which statistical models could be trained. The existence of large, accessible datasets was therefore not an intentional step toward AI but a byproduct of earlier digital expansion.</p>
+                    <p>Compute and systems engineering formed the fourth precondition. It was not enough to have algorithms and data; it was also necessary to train and serve very large models efficiently. Distributed training methods, specialized hardware, software frameworks, and data-center design had to advance in parallel. These engineering achievements converted theoretical capacity into practical, repeatable systems.</p>
+                    <p>Economic and institutional scaffolding provided the fifth condition. Sustained capital investment, organizations capable of coordinating large numbers of researchers and engineers, and markets that rewarded capability improvements were required. Research could not remain indefinitely in academic isolation; it needed pathways into large-scale infrastructure and deployment. The willingness of institutions to fund long-horizon work, and the existence of entities able to absorb and operationalize the results, proved essential.</p>
+                    <p>Finally, cultural and scientific continuity held the entire process together. Generations of researchers kept the relevant problems alive through periods of limited progress. Ideas circulated, techniques compounded, and institutional knowledge persisted. Without this continuity, earlier advances would have been lost or remained fragmented.</p>
+                    <p>None of these preconditions was sufficient by itself. Algorithms without data and compute remained limited. Data without suitable algorithms and hardware could not be effectively used. Hardware without economic support and institutional coordination could not be deployed at scale. Only when all of these layers had reached a critical density did the conditions for modern AI exist in full. The blueprints were not handed down in advance. The design became visible after the necessary elements had already come together.</p>
+                    <p>This convergence explains both the suddenness with which capable systems appeared and the sense that the underlying structure now feels inevitable. What looks in retrospect like a coherent architecture was, in the making, a set of separate developments that happened to align. Once they aligned, the stack that could support contemporary AI was complete.</p>
+
+<h3>Historical Convergence Cases</h3>
+<p>
+Graphics processing units (GPUs) provide a useful example of infrastructural convergence. Originally developed for graphical rendering and gaming workloads, their highly parallel architecture later proved extremely effective for neural network training. AI therefore benefited from an existing industrial ecosystem that had been developed for a different purpose.
+</p>
+
+<p>
+The growth of the public web represents a second example. Websites, digital publishing platforms, forums, and social networks were originally built for communication and information exchange. Over time these systems accumulated vast quantities of machine-readable data that later became foundational training corpora for large-scale machine learning.
+</p>
+
+<p>
+A third example is the transformer architecture. Although transformer models significantly expanded the capabilities of machine learning systems, their impact depended upon the simultaneous availability of computational infrastructure, large datasets, and institutional capacity capable of supporting large-scale training.
+</p>
+
+                </div>
+            </details>
+
+            <details id="formation-of-the-structural-stack" name="thesis" class="section-dropdown">
+                <summary class="section-title">4. Formation of the Structural Stack</summary>
+                <div class="section-content">
+                    <p>Once the necessary preconditions had converged, they did not remain a loose collection of enabling factors. They locked together into an interlocking architecture. What had been separate lines of development became a layered stack whose parts now depend on one another. This is the moment of crystallization: the point at which the conditions for modern AI ceased to be merely preparatory and became a stable, explainable infrastructure.</p>
+                    <p>
+At the base of the stack lies Physical Infrastructure: energy systems,
+semiconductor fabrication, logistics, and data centres.
+
+Built upon this foundation is the Compute & Transport layer, consisting
+of networks, cloud platforms, distributed computation frameworks, and
+the movement of information across interconnected systems.
+
+Above this sits the Data & Models layer, composed of training corpora,
+representational structures, embeddings, and learned model weights.
+
+Emergent capabilities appear within the Agent Systems layer, where
+models interact with tools, execute workflows, maintain state, and
+pursue multi-step objectives.
+
+Surrounding these technical layers are Institutional Systems, including
+capital allocation, governance, regulation, and organisational
+coordination.
+
+At the outermost level sit Human Objectives: the goals, incentives,
+values, and preferences that provide direction to the system as a whole.
+</p>
+
+<p>
+Attention is not treated here as a layer in itself. Rather, it functions
+as an allocation process operating across layers, determining which
+resources, information, objectives, and computations receive priority at
+any given moment.
+</p>
+
+                    <p>These layers are not merely sequential; they are mutually constraining. Weights have no force without compute and energy. Agents cannot act without transport and data. Human institutions cannot extract value from the system without the lower layers remaining intact. At the same time, each layer possesses its own internal organization and its own characteristic degrees of freedom. The result is a single structural infrastructure rather than a set of independent tools.</p>
+                    <p>Crystallization also explains why the stack is now legible. While the preconditions were still accumulating, the overall form was difficult to perceive; each community worked inside its own domain. Once the layers had cohered, the relations between them became visible. It became possible to describe how influence moves from one level to another, where bottlenecks form, and why certain technical directions align with the existing architecture while others remain marginal. The infrastructure could be mapped because it had become real enough to inhabit.</p>
+                    <p>This crystallized stack is what subsequent development must work within. New capabilities are not created in an empty space; they are added to, or carved out of, an already-ordered architecture. The physical substrate continues to underwrite everything. The data-and-weights layer continues to mediate between digital processes and real-world patterns. Attention continues to function as a scarce allocator. Agent systems continue to operate inside environments shaped by the layers beneath them. And human institutions continue to supply objectives and physical upkeep. The design was not handed down in advance, yet once it cohered it acquired the stability and the explanatory force of infrastructure.</p>
+
+<p>
+The convergence described here should not be
+understood as historically inevitable. The individual
+preconditions emerged for independent reasons and
+could plausibly have developed differently. The
+appearance of inevitability is retrospective. Once the
+infrastructure crystallized, the resulting architecture
+became increasingly self-reinforcing and therefore
+appears more necessary than it actually was during
+its formation.
+</p>
+
+                </div>
+            </details>
+
+            <details id="degrees-of-freedom" name="thesis" class="section-dropdown">
+                <summary class="section-title">5. Degrees of Freedom Within the Stack</summary>
+                <div class="section-content">
+                    <p>Within the crystallized infrastructure, development does not proceed freely in every direction. Each layer of the stack possesses its own degrees of freedom &mdash; the range of actions, designs, and expansions that remain possible without breaking the dependencies that hold the architecture together. Progress consists largely in discovering and exploiting those degrees of freedom, while directions that require violating the existing relations between layers encounter structural resistance.</p>
+                    <p>At the physical substrate, the degrees of freedom are tightly constrained by energy, materials, thermodynamics, and manufacturing reality. Improvements are possible &mdash; more efficient chips, better cooling, denser interconnects &mdash; but they must still deliver reliable computation and communication. Approaches that ignore power, heat, or fabrication limits cannot scale inside this layer.</p>
+                    <p>The data-and-weights layer offers greater flexibility. New datasets can be incorporated, architectures can be refined, and training methods can be improved. Yet the layer remains bound by the statistical character of learning from finite data and by the computational cost of updating and storing large numbers of parameters. Not every representational scheme is equally viable; those that align with available data and compute expand more readily than those that do not.</p>
+                    <p>Attention and optimization mechanisms sit at a critical juncture. Both human attention and algorithmic attention function as allocators, determining which computations, which data, and which goals receive resources. The degrees of freedom here include new ways of directing attention, new objective functions, and new methods of routing information through the stack. At the same time, attention remains scarce. Systems that demand unbounded attention, whether from humans or from compute, quickly encounter limits.</p>
+                    <p>Agent Systems currently exhibit some of the largest available degrees of freedom within the stack. Systems can already navigate digital environments, use tools, maintain state, and coordinate with other agents with reduced step-by-step human prompting. This layer is still immature relative to the ones beneath it, which is why it feels open. Even here, however, agents remain dependent on the transport, data, and physical layers below them, and on the human-supplied objectives and permissions that frame their activity.</p>
+
+                    <p>At the outermost layer &mdash; human goals, institutions, and cultural uptake &mdash; the degrees of freedom are shaped by economic incentives, regulatory environments, existing habits, and the willingness of people to alter their practices. Technical possibilities that fit poorly with these constraints remain marginal even when they are locally impressive.</p>
+<p>
+This distribution of degrees of freedom explains why some forms of innovation propagate more successfully than others. Innovations that align with existing infrastructural layers, institutional incentives, available data, and established computational resources can spread rapidly through the stack. Innovations that require substantial modification of multiple layers simultaneously face greater resistance. The architecture does not prohibit novelty, but it influences which forms of novelty can be adopted, scaled, and sustained.
+</p>
+                    <p>In short, the stack does not forbid novelty. It channels it. The available degrees of freedom determine which innovations can propagate through the infrastructure and which remain isolated experiments. Understanding those degrees of freedom is therefore essential to understanding why development has taken its present shape.</p>
+                </div>
+            </details>
+
+            <details id="mutation-retention" name="thesis" class="section-dropdown">
+                <summary class="section-title">6. Mutation and the Retention of Older Methods</summary>
+                <div class="section-content">
+                    <p>Once a layer of the stack has matured, radical invention inside it becomes rarer. The basic grammar of that layer &mdash; its dominant forms, protocols, and interaction patterns &mdash; stabilizes. Further change tends to proceed by mutation: recombination of existing elements, stylistic variation, specialization for narrower contexts, and incremental refinement. This is not stagnation. It is the characteristic behavior of a saturated design space.</p>
+                    <p>Mutation appears most clearly in the upper layers of the digital stack. The fundamental patterns of applications, websites, and interfaces were established years ago. What continues to appear is variation within those patterns &mdash; new combinations of familiar components, aesthetic cycles, niche adaptations, and AI-generated elaborations of existing forms. The sense that &ldquo;everything has already been thought of&rdquo; is the subjective counterpart of this saturation. Novelty still occurs, but it is novelty of arrangement rather than novelty of primitive.</p>
+                    <p>At the same time, the stack retains older methods rather than discarding them. Legacy protocols, simpler interfaces, human-in-the-loop controls, and earlier generations of tools remain active. This retention is not merely inertia. It is a structural necessity. Participants in the system possess unequal capacities and unequal tolerance for constraint. Some can operate effectively under the tighter demands of newer layers; many cannot, or will not. A system that abruptly eliminated older methods would become uninhabitable for large parts of its population.</p>
+                    <p>Backward compatibility therefore functions as a stabilizing mechanism. It allows the architecture to absorb new capabilities without forcing every participant onto the highest layer at once. Mutation and retention operate together: the system elaborates new variations at the leading edge while keeping prior modes available for those who remain at earlier levels of capacity or preference.</p>
+                    <p>This dual process is visible across the stack. In the physical and systems layers, older hardware and protocols continue to run alongside advanced accelerators. In the data and model layers, simpler statistical methods persist beside large-scale learned systems. In the agent and interface layers, direct human control and simple tools remain alongside more autonomous agents. The older methods are not preserved out of sentiment; they are preserved because the overall infrastructure must continue to serve a heterogeneous set of users and use-cases.</p>
+                    <p>The result is a living architecture that changes by mutation while remaining stratified. Newer layers expand the degrees of freedom for those who can inhabit them. Older layers continue to provide usable degrees of freedom for everyone else. The stack evolves without requiring uniform advancement, and in doing so it maintains both its coherence and its accessibility.</p>
+
+<p>
+Retention should not be attributed solely to unequal
+participant capacity. Legacy systems persist through
+a combination of switching costs, regulatory
+requirements, infrastructure lock-in, organizational
+inertia, and heterogeneous user capabilities. The
+continued presence of older methods therefore
+reflects multiple reinforcing pressures rather than a
+single cause.
+</p>
+                </div>
+            </details>
+
+            <details id="cross-layer-translation" name="thesis" class="section-dropdown">
+                <summary class="section-title">7. Cross-Layer Translation</summary>
+                <div class="section-content">
+                    <p>Although the stack is layered and each layer possesses its own degrees of freedom, influence is not confined within single levels. Processes that originate in one layer can affect the organization and behavior of others. This cross-layer influence is essential to the functioning of the infrastructure, yet it is also constrained. Influence must be translated into forms that the receiving layer can accept; otherwise it dissipates or produces instability.</p>
+                    <p>Human goals and institutional decisions operate at the outermost layer, yet they continuously shape the layers beneath. Capital allocation determines which physical capacity is built. Regulatory and organizational choices set the permissions within which agents may act. Preferences and attention supply the selection pressures that decide which models are trained, which data are valued, and which capabilities are amplified. In this direction, outer-layer processes inject themselves into the inner architecture by altering its boundary conditions and its incentives.</p>
+                    <p>Influence also moves upward. Patterns discovered in data and compressed into weights enable new forms of agent behavior. Improvements in physical infrastructure and systems engineering expand the practical scope of what agents and human users can attempt. Changes at the transport and compute layers alter the latency, scale, and reliability of everything above them. The lower layers do not merely support the higher ones; they actively condition what is possible at those higher levels.</p>
+                    <p>A particularly significant form of cross-layer influence is now emerging in the agent layer. As systems become capable of navigating digital environments, using tools, maintaining state, and coordinating with other agents with reduced step-by-step human prompting, they begin to generate intermediate structures &mdash; code, data organizations, temporary environments, and toolchains &mdash; that subsequent agents can inhabit or extend. In this limited but growing sense, activity inside the digital layers is becoming more self-mediating. Humans continue to supply high-level objectives, economic signals, and physical maintenance, while a larger fraction of the internal traffic is handled by AI-to-AI processes.</p>
+                    <p>Cross-layer translation is the process by which influence originating in one layer is rendered into forms that can be executed within another. Influence does not move directly between layers. It must first be translated into the native constraints, representations, and mechanisms of the receiving layer.</p>
+                    <p>The formal problem is therefore one of translation and continuity. For influence to move cleanly from one layer to another, it must be rendered in the forms native to the receiving layer while still carrying the causal force of its origin. When this translation succeeds, the architecture remains coherent and capable of coordinated action across levels. When it fails, the system experiences friction, waste, or fragmentation. Understanding the available channels of cross-layer influence, and their limits, is essential to understanding how the crystallized infrastructure actually operates and evolves.</p>
+                </div>
+            </details>
+
+<details id="falsification" name="thesis" class="section-dropdown">
+
+    <summary class="section-title">
+        8. Conditions That Would Weaken the Model
+    </summary>
+
+    <div class="section-content">
+
+        <p>
+        The Structural Stack model is intended as an explanatory framework rather than a fixed doctrine. Several forms of evidence could weaken the model.
+        </p>
+
+        <ul>
+
+            <li>
+            Major AI capabilities emerging independently of existing infrastructural layers.
+            </li>
+
+            <li>
+            Agent systems sustaining themselves without dependence on institutional support, physical maintenance, or energy infrastructure.
+            </li>
+
+            <li>
+            Influence consistently bypassing translation requirements between layers.
+            </li>
+
+            <li>
+            Successful technological development repeatedly occurring outside path-dependent constraints.
+            </li>
+
+            <li>
+            The removal of entire layers without significantly affecting system behaviour.
+            </li>
+
+        </ul>
+
+        <p>
+        Such observations would require revision or replacement of the Structural Stack framework.
+        </p>
+
+    </div>
+
+</details>
+
+
+            <details id="implications" name="thesis" class="section-dropdown">
+                <summary class="section-title">9. Implications</summary>
+                <div class="section-content">
+                    <p>The account developed in the preceding sections carries several direct implications for how the present state of AI, and its near-term development, should be understood.</p>
+                    <p>First, further progress is path-dependent on the already-crystallized stack. New capabilities are not created in an open field; they must be built on top of, or by modification of, the existing layers. Approaches that align with the physical substrate, the data-and-weights regime, the available forms of attention, and the institutional constraints will continue to propagate more readily than those that require the architecture to be rewritten. This is why certain technical directions carry structural weight while others, even when locally impressive, remain marginal.</p>
+                    <p>Second, the available degrees of freedom are unevenly distributed across layers. The greatest near-term expansion is occurring where the architecture is still relatively open &mdash; particularly in the agent layer and in the refinement of attention and optimization mechanisms. By contrast, layers that have already matured change primarily by mutation and incremental improvement. Recognizing this distribution prevents the misallocation of expectation: not every domain of the stack is equally plastic.</p>
+                    <p>Third, the retention of older methods is not a temporary inefficiency but a standing feature of the system. Because participants differ in capacity and in tolerance for constraint, the infrastructure must remain stratified. Attempts to force uniform advancement onto the newest layers produce exclusion or fragility. Stable evolution preserves usable degrees of freedom at multiple levels simultaneously.</p>
+                    <p>Fourth, cross-layer influence is both powerful and limited. Humans and institutions continue to set objectives and maintain the physical plant; AI systems increasingly mediate internal digital activity and generate structures that other systems can use. The balance between these forms of influence is shifting, yet it remains a balance. Claims that humans have already been reduced to passive transmitters, or that the digital layers have achieved full self-sufficiency, overstate the current degree of autonomy. The loop still closes through human goals, capital, and physical upkeep.</p>
+                    <p>Fifth, there is a lag between the crystallization of the infrastructure and its widespread mapping. The stack became real before it became commonly articulated as architecture. This lag produces a characteristic disorientation: many people sense that the ground has shifted, yet lack a shared structural account of what has shifted and how the layers now relate. Making the infrastructure explicit reduces that gap. It replaces diffuse impressions of saturation, acceleration, or loss of control with a more precise description of constraints, freedoms, and dependencies.</p>
+                    <p>Finally, the most consequential open questions are themselves architectural. Where can the degrees of freedom still be expanded without destabilizing the lower layers? How cleanly can influence be translated across levels? How much of the older stack must be maintained to keep the whole inhabitable? These questions follow directly from the nature of the crystallized infrastructure. They cannot be answered by technical innovation alone; they require continuous attention to the relations that hold the stack together.</p>
+                    <p>In sum, the implications are structural. Development will continue, but it will continue inside an architecture that is already largely formed. Understanding that architecture &mdash; its preconditions, its layers, its degrees of freedom, its mutations, and its channels of influence &mdash; is now a prerequisite for clear thought about what AI is and what it can become.</p>
+                </div>
+            </details>
+
+            <details id="conclusion" name="thesis" class="section-dropdown">
+                <summary class="section-title">10. Conclusion</summary>
+                <div class="section-content">
+                    <p>Modern AI rests on a structural infrastructure that had to come into existence before the systems themselves could appear. That infrastructure was not supplied by a pre-given blueprint. It crystallized when a set of independent preconditions &mdash; physical, mathematical, informational, economic, institutional, and cultural &mdash; finally converged. Once those conditions cohered, they formed a layered stack whose relations are now stable enough to be mapped and explained.</p>
+                    <p>Within this stack, development proceeds by the exploration of degrees of freedom that differ from layer to layer. Some layers remain relatively open; others have matured and change mainly by mutation. Older methods are retained alongside newer ones so that the architecture can continue to serve participants of unequal capacity. Influence moves across layers, yet it must be translated into forms each layer can accept. The result is a coherent, stratified, and path-dependent system.</p>
+                    <p>The present moment is defined by this architecture. Capable AI systems are the visible surface of a deeper set of dependencies that reach from energy and silicon up through data, weights, attention, agents, and human institutions. Further advances will be shaped by the freedoms the stack still permits and by the constraints it continues to impose. Understanding the stack as infrastructure &mdash; how it formed, how it is layered, and how it channels change &mdash; therefore provides a clearer basis for thought and action than narratives that treat AI as an isolated technical event.</p>
+
+
+<h3>References</h3>
+
+<p>
+Arthur, W. Brian. <em>Increasing Returns and Path Dependence in the Economy.</em>
+University of Michigan Press, 1994.
+</p>
+
+<p>
+Hughes, Thomas P. <em>Networks of Power: Electrification in Western Society, 1880–1930.</em>
+Johns Hopkins University Press, 1983.
+</p>
+
+<p>
+Perez, Carlota. <em>Technological Revolutions and Financial Capital: The Dynamics of Bubbles and Golden Ages.</em>
+Edward Elgar Publishing, 2002.
+</p>
+
+<p>
+Simon, Herbert A. <em>The Architecture of Complexity.</em>
+Proceedings of the American Philosophical Society, Vol. 106, No. 6, 1962.
+</p>
+
+<p>
+Vaswani, Ashish et al. <em>Attention Is All You Need.</em>
+Advances in Neural Information Processing Systems (NeurIPS), 2017.
+</p>
+
+<p>
+Common Crawl Foundation. <em>Common Crawl Open Repository of Web Crawl Data.</em>
+<a href="https://commoncrawl.org" target="_blank" rel="noopener noreferrer">https://commoncrawl.org</a>
+</p>
+
+<p>
+NVIDIA Corporation. <em>GPU Computing and CUDA Platform Documentation.</em>
+<a href="https://developer.nvidia.com" target="_blank" rel="noopener noreferrer">https://developer.nvidia.com</a>
+</p><br>
+
+
+<h3>Acknowledgements & Development Tools</h3>
+<p>
+The interactive Structural Stack visualization and
+associated research materials were developed with
+assistance from multiple AI systems and software
+platforms including Microsoft Copilot, Claude,
+Grok, OpenAI language models, Three.js, React,
+Radix UI, and modern web visualization tools.
+</p>
+
+<p>
+These systems were used to assist with conceptual
+exploration, iterative review, editing, software
+development, visualization design, and technical
+implementation. Responsibility for the framework,
+interpretations, conclusions, and final published
+content remains with the author.
+</p>
+
+<p>
+This work forms part of a broader body of research
+and development including the Structural Stack
+framework, ARC, TFM-GL, DTSIM, C-DR to date 15/10/2026.
+</p>
+
+
+                    <p>------------------<br>The architecture was not deliberately designed as a unified system. It emerged through convergence, became visible through crystallization, and now serves as the terrain within which further AI development occurs.</p>
+
+
+                </div>
+            </details>
+
+
+        </main>
+
+    <!-- RIGHT PANEL -->
+    <aside class="feature-panel">
+
+        <section class="widget-section">
+            <div class="widget-header">
+                <span>Telemetry & Resonance Engine</span>
+                <span style="font-size:0.75rem;color:var(--text-muted);">
+                </span>
+            </div>
+
+            <div id="widget-root"></div>
+<div style="
+font-size:0.65rem;
+color:var(--text-muted);
+padding:0.5rem 1rem;
+letter-spacing:0.08em;
+text-transform:uppercase;
+">
+Illustrative Structural Model • Not empirical telemetry
+</div>
+        </section>
+ </aside>
+
+</div>
+        <footer>
+            <p>Text &copy; 2026 JV7T9, <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>. Code released under the MIT License.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Thesis sections behave as an accordion: opening one closes the others.
+        // Browsers that support <details name="..."> do the closing natively; this
+        // also covers older browsers and corrects scrolling after the layout shifts.
+        (function () {
+            var sections = Array.prototype.slice.call(
+                document.querySelectorAll('details.section-dropdown[name="thesis"]')
+            );
+
+            sections.forEach(function (d) {
+                d.addEventListener('toggle', function () {
+                    if (!d.open) return;
+                    sections.forEach(function (other) {
+                        if (other !== d && other.open) other.open = false;
+                    });
+                    // Closing a long section above can push this one off-screen
+                    var top = d.getBoundingClientRect().top;
+                    if (top < 0 || top > window.innerHeight - 80) {
+                        d.scrollIntoView({ block: 'start' });
+                    }
+                });
+            });
+
+            // Open the matching section when a table-of-contents link is clicked
+            document.querySelectorAll('nav.toc a[href^="#"]').forEach(function (a) {
+                a.addEventListener('click', function () {
+                    var target = document.querySelector(a.getAttribute('href'));
+                    if (target && target.tagName === 'DETAILS') target.open = true;
+                });
+            });
+        })();
+    </script>
+</body>
+</html>
