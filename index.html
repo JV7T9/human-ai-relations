@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#0f172a">
-    <meta name="description" content="A structural account of modern AI as infrastructure that had to crystallize before the systems could exist: its layers, degrees of freedom, and the conditions that would weaken the model.">
+    <meta name="description" content="A structural account of modern AI as infrastructure that had to crystallise before the systems could exist: its layers, degrees of freedom, and the conditions that would weaken the model.">
     <meta name="author" content="JV7T9">
     <meta property="og:type" content="article">
     <meta property="og:title" content="Human-AI Relations: Mapping the Structural Stack">
-    <meta property="og:description" content="A structural account of modern AI as infrastructure that had to crystallize before the systems could exist: its layers, degrees of freedom, and the conditions that would weaken the model.">
+    <meta property="og:description" content="A structural account of modern AI as infrastructure that had to crystallise before the systems could exist: its layers, degrees of freedom, and the conditions that would weaken the model.">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Human-AI Relations: Mapping the Structural Stack">
-    <meta name="twitter:description" content="A structural account of modern AI as infrastructure that had to crystallize before the systems could exist: its layers, degrees of freedom, and the conditions that would weaken the model.">
+    <meta name="twitter:description" content="A structural account of modern AI as infrastructure that had to crystallise before the systems could exist: its layers, degrees of freedom, and the conditions that would weaken the model.">
     <title>Human-AI Relations: Mapping the Structural Stack — By JV7T9</title>
     <link href="https://fonts.googleapis.com/css2?family=Michroma&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -82,8 +82,8 @@ const STATE_METRICS = [
   },
   {
     id: "mutation",
-    label: "Evolutionary Pressure",
-    hint: "Rate of adaptation within established systems"
+    label: "Mutation Pressure",
+    hint: "Rate of variation within mature, established layers"
   }
 ];
 
@@ -1366,7 +1366,6 @@ summary.section-title:hover {
             .page-container { padding: 1.5rem 1rem 2rem; }
 
             header {
-                margin-top: 0rem;
                 margin-bottom: 1.5rem;
                 padding-bottom: 1rem;
             }
@@ -1403,6 +1402,27 @@ summary.section-title:hover {
 
             .model-note { font-size: 0.75rem !important; line-height: 1.5; }
         }
+
+        .section-content ul {
+            margin: 0.75rem 0 1rem;
+            padding-left: 1.4rem;
+        }
+
+        .section-content li {
+            margin-bottom: 0.6rem;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-main);
+        }
+
+        .section-content h3 {
+            font-family: var(--font-display);
+            font-size: 0.8rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--accent-color);
+            margin: 1.5rem 0 0.25rem;
+        }
     </style>
 </head>
 <body>
@@ -1428,15 +1448,13 @@ summary.section-title:hover {
     <div class="section-content">
 
         <p>
-        This thesis proposes that contemporary artificial intelligence is best understood not as a sequence of isolated technical breakthroughs but as the crystallization of a layered infrastructural stack. Modern AI emerged only after the convergence of physical, computational, informational, institutional, economic, and human-organizational preconditions. Once these conditions aligned, they formed a stable architecture within which subsequent development primarily occurs.
+        This thesis proposes that contemporary artificial intelligence is best understood not as a sequence of isolated technical breakthroughs but as the crystallisation of a layered infrastructural stack. Modern AI emerged only after the convergence of physical, computational, informational, institutional, economic, and human-organisational preconditions. Once these conditions aligned, they formed a stable architecture within which subsequent development primarily occurs.
         </p>
 
-        <p>
-        The paper introduces the concepts of Structural Layers, Cross-Layer Translation, Differential Degrees of Freedom, and Capacity-Based Retention as explanatory mechanisms for understanding technological evolution within the AI ecosystem. Historical case studies including GPU repurposing, large-scale web data accumulation, and the emergence of transformer architectures are used to illustrate how pre-existing systems converged into the current AI infrastructure.
-        </p>
+        <p>This thesis introduces four concepts as explanatory mechanisms for understanding technological evolution within the AI ecosystem: Structural Layers, Cross-Layer Translation, Differential Degrees of Freedom, and Stratified Retention. Historical case studies including GPU repurposing, large-scale web data accumulation, and the emergence of transformer architectures are used to illustrate how pre-existing systems converged into the current AI infrastructure. The thesis also states the conditions under which the framework would be weakened, and the limits of its own evidence.</p>
 
         <p>
-        Rather than treating AI as an isolated invention, the thesis presents it as a layered infrastructure whose future development remains shaped by path-dependent constraints, institutional pressures, and translation processes that move influence across levels of organization.
+        Rather than treating AI as an isolated invention, the thesis presents it as a layered infrastructure whose future development remains shaped by path-dependent constraints, institutional pressures, and translation processes that move influence across levels of organisation.
         </p>
 
     </div>
@@ -1458,6 +1476,7 @@ summary.section-title:hover {
                 <li><a href="#falsification">Conditions That Would Weaken the Model</a></li>
                 <li><a href="#implications">Implications</a></li>
                 <li><a href="#conclusion">Conclusion</a></li>
+                <li><a href="#references">References &amp; Acknowledgements</a></li>
             </ol>
             </div>
             </details>
@@ -1467,7 +1486,7 @@ summary.section-title:hover {
                 <summary class="section-title">1. Introduction</summary>
                 <div class="section-content">
                     <p>Modern AI is often narrated as a sequence of technical breakthroughs: better algorithms, larger datasets, more compute. Those accounts are accurate as far as they go, yet they leave something important unstated. The systems that now exist became possible only after a broad set of independent conditions &mdash; physical, mathematical, informational, economic, institutional, and cultural &mdash; had already converged. Once that convergence occurred, the result was not merely a collection of tools but a layered structural infrastructure. That infrastructure is now stable enough to be mapped, and the mapping itself changes how further development can be understood.</p>
-                    <p>This thesis argues that the enabling conditions for contemporary AI were not supplied by a pre-given blueprint. They accumulated through separate lines of work that solved more local problems. When those lines finally cohered, they formed an interlocking stack whose layers can be named and whose constraints can be analyzed. Development since that crystallization has largely consisted of exploring the degrees of freedom available inside the already-laid architecture. Older methods persist alongside newer ones because the stack must remain inhabitable by participants of unequal capacity. Influence can move across layers, but it must do so within the structural limits that the stack itself imposes.</p>
+                    <p>This thesis argues that the enabling conditions for contemporary AI were not supplied by a pre-given blueprint. They accumulated through separate lines of work that solved more local problems. When those lines finally cohered, they formed an interlocking stack whose layers can be named and whose constraints can be analysed. Development since that crystallisation has largely consisted of exploring the degrees of freedom available inside the already-laid architecture. Older methods persist alongside newer ones because the stack must remain inhabitable by participants of unequal capacity. Influence can move across layers, but it must do so within the structural limits that the stack itself imposes.</p>
                     <p>The account that follows therefore treats modern AI less as an isolated invention and more as the visible surface of a deeper infrastructure that had to come into existence first. By making that infrastructure explicit, we gain a clearer view of why certain technical paths carry structural weight while others remain marginal, and why the present moment feels both saturated and still unfinished.</p>
 <h3>Research Questions</h3>
 
@@ -1491,24 +1510,16 @@ This thesis addresses four primary questions:
 The Structural Stack model builds upon a number of established traditions within the study of technological systems and socio-technical change.
 </p>
 
-<p>
-Thomas P. Hughes described large technological systems as interconnected infrastructures whose social, economic, and technical components co-evolve over time. Carlota Perez argued that technological revolutions emerge through clusters of mutually reinforcing innovations that reshape institutions and economies. W. Brian Arthur demonstrated how path dependence and increasing returns can reinforce particular technological trajectories once established.
-</p>
+<p> Thomas P. Hughes described large technological systems as interconnected infrastructures whose social, economic, and technical components co-evolve over time (Hughes, 1983). Carlota Perez argued that technological revolutions emerge through clusters of mutually reinforcing innovations that reshape institutions and economies (Perez, 2002). W. Brian Arthur demonstrated how path dependence and increasing returns can reinforce particular technological trajectories once established (Arthur, 1994). </p>
 
 <p>
-The present framework is complementary to these perspectives. Rather than focusing primarily on systems, paradigms, or path dependence individually, it seeks to explain how influence moves between layers once an infrastructure has crystallized into a stable architecture.
+The present framework is complementary to these perspectives. Rather than focusing primarily on systems, paradigms, or path dependence individually, it seeks to explain how influence moves between layers once an infrastructure has crystallised into a stable architecture.
 </p>
 
-<p>
-The Structural Stack framework is also informed by
-Herbert Simon's work on hierarchical systems and
-complexity. Simon argued that complex systems often
-emerge through layered organization rather than
-through centralized design. This observation aligns
-with the argument presented here that AI emerged
-through convergence and subsequent crystallization
-rather than through a singular architectural plan.
-</p>
+<p> The Structural Stack framework is also informed by Herbert Simon's work on hierarchical systems and complexity. Simon argued that complex systems often emerge through layered organisation rather than through centralised design (Simon, 1962). This observation aligns with the argument presented here that AI emerged through convergence and subsequent crystallisation rather than through a singular architectural plan. </p>
+<p>The closest prior use of a stack as an organising figure is Benjamin Bratton&rsquo;s account of planetary-scale computation as a layered &ldquo;Stack&rdquo;, which he describes as an accidental megastructure (Bratton, 2015). The present thesis shares the intuition that computation is best understood as a set of interlocking layers rather than a collection of devices. It differs in scope and purpose: it concerns the layers on which contemporary AI specifically depends, how those layers came to be assembled, and how influence is translated between them, rather than a general political and geographic theory of computation.</p>
+<p>Two further connections should be stated. First, layering is a long-standing design principle in network engineering, where &ldquo;cross-layer&rdquo; interactions are a recognised concern; the term is used here in an analogous but broader sense that includes human and institutional layers. Second, Hughes&rsquo;s concept of the reverse salient, a component that lags behind the rest of a system and becomes the focus of corrective effort, anticipates the bottlenecks discussed in sections 4 and 7. Susan Leigh Star (1999) observed that infrastructure tends to become visible when it breaks down. This sits in some tension with the claim made in section 4 that the stack became legible through crystallisation. The thesis therefore treats legibility as partial: layers become describable as they stabilise, but their dependencies are often noticed only when a layer fails.</p>
+<p>The framework also differs from accounts that attribute recent progress chiefly to scale, meaning more data, more compute and more parameters. Those accounts describe what was increased. The present thesis asks what had to be in place for that increase to be possible, and what continues to constrain it.</p>
                 </div>
             </details>
 
@@ -1517,28 +1528,22 @@ rather than through a singular architectural plan.
             <details id="necessary-preconditions" name="thesis" class="section-dropdown">
                 <summary class="section-title">3. The Necessary Preconditions</summary>
                 <div class="section-content">
-                    <p>Modern AI did not emerge from a single decision or a unified plan. It became possible only after a series of independent conditions had been satisfied. Each condition developed for reasons of its own; none was created primarily to enable the systems that now exist. Their convergence, however, proved decisive. Once enough of them were in place, the structural infrastructure of contemporary AI could crystallize.</p>
+                    <p>Modern AI did not emerge from a single decision or a unified plan. It became possible only after a series of independent conditions had been satisfied. Each condition developed for reasons of its own; none was created primarily to enable the systems that now exist. Their convergence, however, proved decisive. Once enough of them were in place, the structural infrastructure of contemporary AI could crystallise.</p>
                     <p>The first and most binding precondition was the physical and manufacturing base. Reliable electricity, precision semiconductor fabrication, global logistics, and the industrial capacity to produce high-performance chips at scale formed the material foundation. Without this layer, the mathematical and algorithmic ideas would have remained theoretical. The physical plant had to exist before large-scale computation could become routine.</p>
-                    <p>Above the physical base sat the mathematical and algorithmic foundations. Linear algebra, probability, optimization, and information theory supplied the formal language. Specific techniques &mdash; neural networks, gradient-based learning, and later the transformer architecture &mdash; turned out to be especially effective at extracting patterns from data. These methods were refined over decades, often with limited practical impact, until the other preconditions matured enough to make them powerful.</p>
-                    <p>Data constituted a third necessary condition. Vast quantities of digitized human language, images, code, and behavior had to accumulate. Much of this data was generated for unrelated purposes: the growth of the web, the digitization of media, the rise of platforms, and the proliferation of sensors. Only later was it recognized as the raw material from which statistical models could be trained. The existence of large, accessible datasets was therefore not an intentional step toward AI but a byproduct of earlier digital expansion.</p>
-                    <p>Compute and systems engineering formed the fourth precondition. It was not enough to have algorithms and data; it was also necessary to train and serve very large models efficiently. Distributed training methods, specialized hardware, software frameworks, and data-center design had to advance in parallel. These engineering achievements converted theoretical capacity into practical, repeatable systems.</p>
-                    <p>Economic and institutional scaffolding provided the fifth condition. Sustained capital investment, organizations capable of coordinating large numbers of researchers and engineers, and markets that rewarded capability improvements were required. Research could not remain indefinitely in academic isolation; it needed pathways into large-scale infrastructure and deployment. The willingness of institutions to fund long-horizon work, and the existence of entities able to absorb and operationalize the results, proved essential.</p>
+                    <p>Above the physical base sat the mathematical and algorithmic foundations. Linear algebra, probability, optimisation, and information theory supplied the formal language. Specific techniques &mdash; neural networks, gradient-based learning, and later the transformer architecture &mdash; turned out to be especially effective at extracting patterns from data. These methods were refined over decades, often with limited practical impact, until the other preconditions matured enough to make them powerful.</p>
+                    <p>Data constituted a third necessary condition. Vast quantities of digitised human language, images, code, and behaviour had to accumulate. Much of this data was generated for unrelated purposes: the growth of the web, the digitisation of media, the rise of platforms, and the proliferation of sensors. Only later was it recognised as the raw material from which statistical models could be trained. The existence of large, accessible datasets was therefore not an intentional step toward AI but a byproduct of earlier digital expansion.</p>
+                    <p>Compute and systems engineering formed the fourth precondition. It was not enough to have algorithms and data; it was also necessary to train and serve very large models efficiently. Distributed training methods, specialised hardware, software frameworks, and data-centre design had to advance in parallel. These engineering achievements converted theoretical capacity into practical, repeatable systems.</p>
+                    <p>Economic and institutional scaffolding provided the fifth condition. Sustained capital investment, organisations capable of coordinating large numbers of researchers and engineers, and markets that rewarded capability improvements were required. Research could not remain indefinitely in academic isolation; it needed pathways into large-scale infrastructure and deployment. The willingness of institutions to fund long-horizon work, and the existence of entities able to absorb and operationalise the results, proved essential.</p>
                     <p>Finally, cultural and scientific continuity held the entire process together. Generations of researchers kept the relevant problems alive through periods of limited progress. Ideas circulated, techniques compounded, and institutional knowledge persisted. Without this continuity, earlier advances would have been lost or remained fragmented.</p>
                     <p>None of these preconditions was sufficient by itself. Algorithms without data and compute remained limited. Data without suitable algorithms and hardware could not be effectively used. Hardware without economic support and institutional coordination could not be deployed at scale. Only when all of these layers had reached a critical density did the conditions for modern AI exist in full. The blueprints were not handed down in advance. The design became visible after the necessary elements had already come together.</p>
                     <p>This convergence explains both the suddenness with which capable systems appeared and the sense that the underlying structure now feels inevitable. What looks in retrospect like a coherent architecture was, in the making, a set of separate developments that happened to align. Once they aligned, the stack that could support contemporary AI was complete.</p>
 
 <h3>Historical Convergence Cases</h3>
-<p>
-Graphics processing units (GPUs) provide a useful example of infrastructural convergence. Originally developed for graphical rendering and gaming workloads, their highly parallel architecture later proved extremely effective for neural network training. AI therefore benefited from an existing industrial ecosystem that had been developed for a different purpose.
-</p>
+<p> Graphics processing units (GPUs) provide a useful example of infrastructural convergence. Originally developed for graphical rendering and gaming workloads, their highly parallel architecture later proved extremely effective for neural network training (Raina, Madhavan and Ng, 2009; Krizhevsky, Sutskever and Hinton, 2012). Dedicated software platforms for general-purpose computation on these chips, such as CUDA, followed (NVIDIA Corporation, n.d.). AI therefore benefited from an existing industrial ecosystem that had been developed for a different purpose. </p>
 
-<p>
-The growth of the public web represents a second example. Websites, digital publishing platforms, forums, and social networks were originally built for communication and information exchange. Over time these systems accumulated vast quantities of machine-readable data that later became foundational training corpora for large-scale machine learning.
-</p>
+<p> The growth of the public web represents a second example. Websites, digital publishing platforms, forums, and social networks were originally built for communication and information exchange. Over time these systems accumulated vast quantities of machine-readable data that later became foundational training corpora for large-scale machine learning; open repositories such as Common Crawl now make web-scale text available for that purpose (Common Crawl Foundation, n.d.). </p>
 
-<p>
-A third example is the transformer architecture. Although transformer models significantly expanded the capabilities of machine learning systems, their impact depended upon the simultaneous availability of computational infrastructure, large datasets, and institutional capacity capable of supporting large-scale training.
-</p>
+<p>A third example is the transformer architecture (Vaswani et al., 2017). Although transformer models significantly expanded the capabilities of machine learning systems, their impact depended upon the simultaneous availability of computational infrastructure, large datasets, and institutional capacity capable of supporting large-scale training. The architecture was also well suited to the parallel hardware described above, which allowed its advantages to be realised at scale. The idea mattered, but so did the fact that the surrounding layers were already in a position to exploit it.</p>
 
                 </div>
             </details>
@@ -1546,29 +1551,16 @@ A third example is the transformer architecture. Although transformer models sig
             <details id="formation-of-the-structural-stack" name="thesis" class="section-dropdown">
                 <summary class="section-title">4. Formation of the Structural Stack</summary>
                 <div class="section-content">
-                    <p>Once the necessary preconditions had converged, they did not remain a loose collection of enabling factors. They locked together into an interlocking architecture. What had been separate lines of development became a layered stack whose parts now depend on one another. This is the moment of crystallization: the point at which the conditions for modern AI ceased to be merely preparatory and became a stable, explainable infrastructure.</p>
-                    <p>
-At the base of the stack lies Physical Infrastructure: energy systems,
-semiconductor fabrication, logistics, and data centres.
-
-Built upon this foundation is the Compute & Transport layer, consisting
-of networks, cloud platforms, distributed computation frameworks, and
-the movement of information across interconnected systems.
-
-Above this sits the Data & Models layer, composed of training corpora,
-representational structures, embeddings, and learned model weights.
-
-Emergent capabilities appear within the Agent Systems layer, where
-models interact with tools, execute workflows, maintain state, and
-pursue multi-step objectives.
-
-Surrounding these technical layers are Institutional Systems, including
-capital allocation, governance, regulation, and organisational
-coordination.
-
-At the outermost level sit Human Objectives: the goals, incentives,
-values, and preferences that provide direction to the system as a whole.
-</p>
+                    <p>Once the necessary preconditions had converged, they did not remain a loose collection of enabling factors. They locked together into an interlocking architecture. What had been separate lines of development became a layered stack whose parts now depend on one another. This is the moment of crystallisation: the point at which the conditions for modern AI ceased to be merely preparatory and became a stable, explainable infrastructure. That infrastructure is described here as a set of six Structural Layers.</p>
+                    <p>From the base upward, the six layers are as follows.</p>
+<ul>
+<li><strong>Physical Infrastructure</strong> forms the base of the stack: energy systems, semiconductor fabrication, logistics, and data centres.</li>
+<li><strong>Compute &amp; Transport</strong> is built upon this foundation, consisting of networks, cloud platforms, distributed computation frameworks, and the movement of information across interconnected systems.</li>
+<li><strong>Data &amp; Models</strong> sits above this, composed of training corpora, representational structures, embeddings, and learned model weights.</li>
+<li><strong>Agent Systems</strong> is where emergent capabilities appear: models interact with tools, execute workflows, maintain state, and pursue multi-step objectives.</li>
+<li><strong>Institutional Systems</strong> surround these technical layers, including capital allocation, governance, regulation, and organisational coordination.</li>
+<li><strong>Human Objectives</strong> sit at the outermost level: the goals, incentives, values, and preferences that provide direction to the system as a whole.</li>
+</ul>
 
 <p>
 Attention is not treated here as a layer in itself. Rather, it functions
@@ -1576,10 +1568,12 @@ as an allocation process operating across layers, determining which
 resources, information, objectives, and computations receive priority at
 any given moment.
 </p>
+<h3>What Counts as a Layer</h3>
+<p>A layer is not any convenient grouping of components. For the purposes of this thesis, a candidate counts as a Structural Layer only if it meets four conditions: it is bound by constraints that are distinct from those of its neighbours; it is maintained by a recognisably distinct set of actors; it changes at a characteristic pace of its own; and its dependence on its neighbours is asymmetric, in that layers which rely on it cannot operate if it fails, whereas it can continue in some form without them. Energy systems meet all four conditions with respect to model training: they have their own physics, their own operators and their own investment cycles, and training stops without them while power grids carry on. A grouping that fails these tests, such as &ldquo;everything built after 2017&rdquo;, is a periodisation and not a layer.</p>
 
-                    <p>These layers are not merely sequential; they are mutually constraining. Weights have no force without compute and energy. Agents cannot act without transport and data. Human institutions cannot extract value from the system without the lower layers remaining intact. At the same time, each layer possesses its own internal organization and its own characteristic degrees of freedom. The result is a single structural infrastructure rather than a set of independent tools.</p>
-                    <p>Crystallization also explains why the stack is now legible. While the preconditions were still accumulating, the overall form was difficult to perceive; each community worked inside its own domain. Once the layers had cohered, the relations between them became visible. It became possible to describe how influence moves from one level to another, where bottlenecks form, and why certain technical directions align with the existing architecture while others remain marginal. The infrastructure could be mapped because it had become real enough to inhabit.</p>
-                    <p>This crystallized stack is what subsequent development must work within. New capabilities are not created in an empty space; they are added to, or carved out of, an already-ordered architecture. The physical substrate continues to underwrite everything. The data-and-weights layer continues to mediate between digital processes and real-world patterns. Attention continues to function as a scarce allocator. Agent systems continue to operate inside environments shaped by the layers beneath them. And human institutions continue to supply objectives and physical upkeep. The design was not handed down in advance, yet once it cohered it acquired the stability and the explanatory force of infrastructure.</p>
+                    <p>These layers are not merely sequential; they are mutually constraining. Model weights have no force without compute and energy. Agent Systems cannot act without transport and data. Institutional Systems cannot extract value from the system without the lower layers remaining intact. At the same time, each layer possesses its own internal organisation and its own characteristic degrees of freedom. The result is a single structural infrastructure rather than a set of independent tools.</p>
+                    <p>Crystallisation also explains why the stack has become largely legible, though not fully so. While the preconditions were still accumulating, the overall form was difficult to perceive; each community worked inside its own domain. Once the layers had cohered, the relations between them became visible. It became possible to describe how influence moves from one level to another, where bottlenecks form, and why certain technical directions align with the existing architecture while others remain marginal. The infrastructure could be mapped because it had become real enough to inhabit. Legibility nonetheless remains partial: stable dependencies tend to be noticed only when a layer fails (Star, 1999), which is one reason the mapping offered here should be read as provisional.</p>
+                    <p>This crystallised stack is what subsequent development must work within. New capabilities are not created in an empty space; they are added to, or carved out of, an already-ordered architecture. Physical Infrastructure continues to underwrite everything. The Data &amp; Models layer continues to mediate between digital processes and real-world patterns. Attention continues to function as a scarce allocator across all of them. Agent Systems continue to operate inside environments shaped by the layers beneath them. And Institutional Systems and Human Objectives continue to supply direction and physical upkeep. The design was not handed down in advance, yet once it cohered it acquired the stability and the explanatory force of infrastructure.</p>
 
 <p>
 The convergence described here should not be
@@ -1587,7 +1581,7 @@ understood as historically inevitable. The individual
 preconditions emerged for independent reasons and
 could plausibly have developed differently. The
 appearance of inevitability is retrospective. Once the
-infrastructure crystallized, the resulting architecture
+infrastructure crystallised, the resulting architecture
 became increasingly self-reinforcing and therefore
 appears more necessary than it actually was during
 its formation.
@@ -1599,13 +1593,16 @@ its formation.
             <details id="degrees-of-freedom" name="thesis" class="section-dropdown">
                 <summary class="section-title">5. Degrees of Freedom Within the Stack</summary>
                 <div class="section-content">
-                    <p>Within the crystallized infrastructure, development does not proceed freely in every direction. Each layer of the stack possesses its own degrees of freedom &mdash; the range of actions, designs, and expansions that remain possible without breaking the dependencies that hold the architecture together. Progress consists largely in discovering and exploiting those degrees of freedom, while directions that require violating the existing relations between layers encounter structural resistance.</p>
-                    <p>At the physical substrate, the degrees of freedom are tightly constrained by energy, materials, thermodynamics, and manufacturing reality. Improvements are possible &mdash; more efficient chips, better cooling, denser interconnects &mdash; but they must still deliver reliable computation and communication. Approaches that ignore power, heat, or fabrication limits cannot scale inside this layer.</p>
-                    <p>The data-and-weights layer offers greater flexibility. New datasets can be incorporated, architectures can be refined, and training methods can be improved. Yet the layer remains bound by the statistical character of learning from finite data and by the computational cost of updating and storing large numbers of parameters. Not every representational scheme is equally viable; those that align with available data and compute expand more readily than those that do not.</p>
-                    <p>Attention and optimization mechanisms sit at a critical juncture. Both human attention and algorithmic attention function as allocators, determining which computations, which data, and which goals receive resources. The degrees of freedom here include new ways of directing attention, new objective functions, and new methods of routing information through the stack. At the same time, attention remains scarce. Systems that demand unbounded attention, whether from humans or from compute, quickly encounter limits.</p>
-                    <p>Agent Systems currently exhibit some of the largest available degrees of freedom within the stack. Systems can already navigate digital environments, use tools, maintain state, and coordinate with other agents with reduced step-by-step human prompting. This layer is still immature relative to the ones beneath it, which is why it feels open. Even here, however, agents remain dependent on the transport, data, and physical layers below them, and on the human-supplied objectives and permissions that frame their activity.</p>
+                    <p>Within the crystallised infrastructure, development does not proceed freely in every direction. Each layer of the stack possesses its own degrees of freedom &mdash; the range of actions, designs, and expansions that remain possible without breaking the dependencies that hold the architecture together. Progress consists largely in discovering and exploiting those degrees of freedom, while directions that require violating the existing relations between layers encounter structural resistance. Because these degrees of freedom differ from layer to layer in range, speed, and kind, this thesis refers to them as differential degrees of freedom. The rest of this section takes the layers in turn, and then considers attention, which operates across all of them.</p>
+                    <p>At the level of Physical Infrastructure, the degrees of freedom are tightly constrained by energy, materials, thermodynamics, and manufacturing reality. Improvements are possible &mdash; more efficient chips, better cooling, denser interconnects &mdash; but they must still deliver reliable computation and communication. Approaches that ignore power, heat, or fabrication limits cannot scale inside this layer.</p>
+<p>Compute &amp; Transport has more room for manoeuvre than the physical layer beneath it, but remains bounded by it. Distributed training methods, interconnects, scheduling software, and cloud architectures can be redesigned, and have been, but each design must still run on available hardware and move data within the limits of bandwidth and latency. Gains at this layer tend to arrive as better use of existing capacity rather than as escape from physical limits.</p>
+                    <p>The Data &amp; Models layer offers greater flexibility. New datasets can be incorporated, architectures can be refined, and training methods can be improved. Yet the layer remains bound by the statistical character of learning from finite data and by the computational cost of updating and storing large numbers of parameters. Not every representational scheme is equally viable; those that align with available data and compute expand more readily than those that do not.</p>
+                    
+                    <p>As of 2026, Agent Systems exhibit some of the largest available degrees of freedom within the stack. Systems can already navigate digital environments, use tools, maintain state, and coordinate with other agents with reduced step-by-step human prompting. This layer is still immature relative to the ones beneath it, which is why it feels open, although that assessment is time-bound: as the layer matures, its degrees of freedom may narrow as those of the lower layers have. Even here, however, agents remain dependent on the transport, data, and physical layers below them, and on the human-supplied objectives and permissions that frame their activity.</p>
 
-                    <p>At the outermost layer &mdash; human goals, institutions, and cultural uptake &mdash; the degrees of freedom are shaped by economic incentives, regulatory environments, existing habits, and the willingness of people to alter their practices. Technical possibilities that fit poorly with these constraints remain marginal even when they are locally impressive.</p>
+                    <p>Institutional Systems have degrees of freedom shaped by capital markets, governance arrangements, and regulatory environments. These can change quickly in some respects, such as a funding decision, and slowly in others, such as legislation or organisational habit. Technical possibilities that fit poorly with these constraints remain marginal even when they are locally impressive.</p>
+<p>At the outermost level, Human Objectives are constrained less by engineering than by incentives, existing habits, and the willingness of people to alter their practices. Their degrees of freedom are wide in principle, since goals can be redefined, but in practice they tend to move slowly and to be shaped by what the layers below make easy.</p>
+<p>Attention is treated separately because it is not a layer but an allocation process that operates across all of them. Both human attention and algorithmic attention function as allocators, determining which computations, which data, and which goals receive resources. The degrees of freedom here include new ways of directing attention, new objective functions, and new methods of routing information through the stack. At the same time, attention remains scarce. Systems that demand unbounded attention, whether from humans or from compute, quickly encounter limits.</p>
 <p>
 This distribution of degrees of freedom explains why some forms of innovation propagate more successfully than others. Innovations that align with existing infrastructural layers, institutional incentives, available data, and established computational resources can spread rapidly through the stack. Innovations that require substantial modification of multiple layers simultaneously face greater resistance. The architecture does not prohibit novelty, but it influences which forms of novelty can be adopted, scaled, and sustained.
 </p>
@@ -1616,35 +1613,30 @@ This distribution of degrees of freedom explains why some forms of innovation pr
             <details id="mutation-retention" name="thesis" class="section-dropdown">
                 <summary class="section-title">6. Mutation and the Retention of Older Methods</summary>
                 <div class="section-content">
-                    <p>Once a layer of the stack has matured, radical invention inside it becomes rarer. The basic grammar of that layer &mdash; its dominant forms, protocols, and interaction patterns &mdash; stabilizes. Further change tends to proceed by mutation: recombination of existing elements, stylistic variation, specialization for narrower contexts, and incremental refinement. This is not stagnation. It is the characteristic behavior of a saturated design space.</p>
+                    <p>Once a layer of the stack has matured, radical invention inside it becomes rarer. The basic grammar of that layer &mdash; its dominant forms, protocols, and interaction patterns &mdash; stabilises. Further change tends to proceed by mutation: recombination of existing elements, stylistic variation, specialisation for narrower contexts, and incremental refinement. This is not stagnation. It is the characteristic behaviour of a saturated design space. The claim is a tendency of mature layers and not a law: radical invention can return when a layer is disrupted from below or above.</p>
                     <p>Mutation appears most clearly in the upper layers of the digital stack. The fundamental patterns of applications, websites, and interfaces were established years ago. What continues to appear is variation within those patterns &mdash; new combinations of familiar components, aesthetic cycles, niche adaptations, and AI-generated elaborations of existing forms. The sense that &ldquo;everything has already been thought of&rdquo; is the subjective counterpart of this saturation. Novelty still occurs, but it is novelty of arrangement rather than novelty of primitive.</p>
-                    <p>At the same time, the stack retains older methods rather than discarding them. Legacy protocols, simpler interfaces, human-in-the-loop controls, and earlier generations of tools remain active. This retention is not merely inertia. It is a structural necessity. Participants in the system possess unequal capacities and unequal tolerance for constraint. Some can operate effectively under the tighter demands of newer layers; many cannot, or will not. A system that abruptly eliminated older methods would become uninhabitable for large parts of its population.</p>
-                    <p>Backward compatibility therefore functions as a stabilizing mechanism. It allows the architecture to absorb new capabilities without forcing every participant onto the highest layer at once. Mutation and retention operate together: the system elaborates new variations at the leading edge while keeping prior modes available for those who remain at earlier levels of capacity or preference.</p>
-                    <p>This dual process is visible across the stack. In the physical and systems layers, older hardware and protocols continue to run alongside advanced accelerators. In the data and model layers, simpler statistical methods persist beside large-scale learned systems. In the agent and interface layers, direct human control and simple tools remain alongside more autonomous agents. The older methods are not preserved out of sentiment; they are preserved because the overall infrastructure must continue to serve a heterogeneous set of users and use-cases.</p>
+                    <p>At the same time, the stack retains older methods rather than discarding them. Legacy protocols, simpler interfaces, human-in-the-loop controls, and earlier generations of tools remain active. This retention is not merely inertia, and it has more than one cause. Switching costs, regulatory requirements, infrastructure lock-in, and organisational habit all keep older methods in service. Alongside these sits a further pressure that is characteristic of a layered system: participants possess unequal capacities and unequal tolerance for constraint. Some can operate effectively under the tighter demands of newer layers; many cannot, or will not. A system that abruptly eliminated older methods would become uninhabitable for large parts of its population.</p>
+                    <p>Backward compatibility therefore functions as a stabilising mechanism. It allows the architecture to absorb new capabilities without forcing every participant onto the highest layer at once. Mutation and retention operate together: the system elaborates new variations at the leading edge while keeping prior modes available for those who remain at earlier levels of capacity or preference.</p>
+                    <p>This dual process is visible across the stack. In Physical Infrastructure and Compute &amp; Transport, older hardware and protocols continue to run alongside advanced accelerators. In Data &amp; Models, simpler statistical methods persist beside large-scale learned systems. In Agent Systems and the interfaces to them, direct human control and simple tools remain alongside more autonomous agents. The older methods are not preserved out of sentiment; they are preserved because several pressures, including the need to serve a heterogeneous set of users and use-cases, make their removal costly.</p>
                     <p>The result is a living architecture that changes by mutation while remaining stratified. Newer layers expand the degrees of freedom for those who can inhabit them. Older layers continue to provide usable degrees of freedom for everyone else. The stack evolves without requiring uniform advancement, and in doing so it maintains both its coherence and its accessibility.</p>
 
-<p>
-Retention should not be attributed solely to unequal
-participant capacity. Legacy systems persist through
-a combination of switching costs, regulatory
-requirements, infrastructure lock-in, organizational
-inertia, and heterogeneous user capabilities. The
-continued presence of older methods therefore
-reflects multiple reinforcing pressures rather than a
-single cause.
-</p>
+<p>These reinforcing pressures are what this thesis calls stratified retention: older methods persist at lower levels of capability and convenience because several mutually supporting forces, of which heterogeneous capacity is one, make their removal costly. The term is preferred to a capacity-only account because the evidence does not support attributing retention to a single cause.</p>
                 </div>
             </details>
 
             <details id="cross-layer-translation" name="thesis" class="section-dropdown">
                 <summary class="section-title">7. Cross-Layer Translation</summary>
                 <div class="section-content">
-                    <p>Although the stack is layered and each layer possesses its own degrees of freedom, influence is not confined within single levels. Processes that originate in one layer can affect the organization and behavior of others. This cross-layer influence is essential to the functioning of the infrastructure, yet it is also constrained. Influence must be translated into forms that the receiving layer can accept; otherwise it dissipates or produces instability.</p>
-                    <p>Human goals and institutional decisions operate at the outermost layer, yet they continuously shape the layers beneath. Capital allocation determines which physical capacity is built. Regulatory and organizational choices set the permissions within which agents may act. Preferences and attention supply the selection pressures that decide which models are trained, which data are valued, and which capabilities are amplified. In this direction, outer-layer processes inject themselves into the inner architecture by altering its boundary conditions and its incentives.</p>
-                    <p>Influence also moves upward. Patterns discovered in data and compressed into weights enable new forms of agent behavior. Improvements in physical infrastructure and systems engineering expand the practical scope of what agents and human users can attempt. Changes at the transport and compute layers alter the latency, scale, and reliability of everything above them. The lower layers do not merely support the higher ones; they actively condition what is possible at those higher levels.</p>
-                    <p>A particularly significant form of cross-layer influence is now emerging in the agent layer. As systems become capable of navigating digital environments, using tools, maintaining state, and coordinating with other agents with reduced step-by-step human prompting, they begin to generate intermediate structures &mdash; code, data organizations, temporary environments, and toolchains &mdash; that subsequent agents can inhabit or extend. In this limited but growing sense, activity inside the digital layers is becoming more self-mediating. Humans continue to supply high-level objectives, economic signals, and physical maintenance, while a larger fraction of the internal traffic is handled by AI-to-AI processes.</p>
-                    <p>Cross-layer translation is the process by which influence originating in one layer is rendered into forms that can be executed within another. Influence does not move directly between layers. It must first be translated into the native constraints, representations, and mechanisms of the receiving layer.</p>
-                    <p>The formal problem is therefore one of translation and continuity. For influence to move cleanly from one layer to another, it must be rendered in the forms native to the receiving layer while still carrying the causal force of its origin. When this translation succeeds, the architecture remains coherent and capable of coordinated action across levels. When it fails, the system experiences friction, waste, or fragmentation. Understanding the available channels of cross-layer influence, and their limits, is essential to understanding how the crystallized infrastructure actually operates and evolves.</p>
+                    <p>Although the stack is layered and each layer possesses its own degrees of freedom, influence is not confined within single levels. Processes that originate in one layer can affect the organisation and behaviour of others. This cross-layer influence is essential to the functioning of the infrastructure, yet it is also constrained. Influence must be translated into forms that the receiving layer can accept; otherwise it dissipates or produces instability.</p>
+                    <p>Human Objectives and Institutional Systems operate at the outer layers, yet they continuously shape the layers beneath. Capital allocation determines which physical capacity is built. Regulatory and organisational choices set the permissions within which agents may act. Preferences and attention supply the selection pressures that decide which models are trained, which data are valued, and which capabilities are amplified. In this direction, outer-layer processes inject themselves into the inner architecture by altering its boundary conditions and its incentives.</p>
+                    <p>Influence also moves upward. Patterns discovered in data and compressed into weights enable new forms of agent behaviour. Improvements in physical infrastructure and systems engineering expand the practical scope of what agents and human users can attempt. Changes in Compute &amp; Transport alter the latency, scale, and reliability of everything above them. The lower layers do not merely support the higher ones; they actively condition what is possible at those higher levels.</p>
+                    <p>A particularly significant form of cross-layer influence is now emerging in the agent layer. As systems become capable of navigating digital environments, using tools, maintaining state, and coordinating with other agents with reduced step-by-step human prompting, they begin to generate intermediate structures &mdash; code, data organisations, temporary environments, and toolchains &mdash; that subsequent agents can inhabit or extend. In this limited but growing sense, activity inside the digital layers is becoming more self-mediating. Humans continue to supply high-level objectives, economic signals, and physical maintenance, while a larger fraction of the internal traffic is handled by AI-to-AI processes.</p>
+                    <p>Cross-layer translation is the process by which influence originating in one layer is rendered into forms that can be executed within another. Influence does not move directly between layers. It must first be translated into the native constraints, representations, and mechanisms of the receiving layer. This is the central claim of the thesis, and it is stated strongly so that it can be tested (see section 8).</p>
+<h3>Worked Examples</h3>
+<p>Human objectives do not enter a model as intentions. In a widely used approach to training language models from human feedback, people&rsquo;s judgements about which outputs are better are collected as comparisons and used to train a reward model, and that reward model is then used to adjust the model&rsquo;s weights (Christiano et al., 2017; Ouyang et al., 2022). A human preference has been translated twice: first into a representation the Data &amp; Models layer can compute with, then into a training signal. At each step something is gained, namely executability, and something is lost, namely nuance. The objective that reaches the weights is a measurable proxy for the one that left the human layer.</p>
+<p>The proxy can also come apart from the intention. Reinforcement-learning systems that optimise a stated reward are known to find unintended ways of scoring well, a failure often called reward hacking or specification gaming (Amodei et al., 2016). In the vocabulary of this thesis, this is a failed translation: the form of the objective that the receiving layer could execute no longer carried the causal force of its origin. The result is the friction, waste, or fragmentation described below.</p>
+<p>A second example runs from Institutional Systems to Physical Infrastructure. A capital allocation decision is expressed in money. To become compute, it has to be translated into orders, then into fabrication capacity, power supply, and data-centre construction, each with its own lead times and constraints. Investment can be committed far faster than a semiconductor plant or a grid connection can be built. The gap between the speed of the signal and the speed of the receiving layer is a standing source of friction, and one place where reverse salients in Hughes&rsquo;s sense are likely to appear.</p>
+                    <p>The formal problem is therefore one of translation and continuity. For influence to move cleanly from one layer to another, it must be rendered in the forms native to the receiving layer while still carrying the causal force of its origin. When this translation succeeds, the architecture remains coherent and capable of coordinated action across levels. When it fails, the system experiences friction, waste, or fragmentation. Understanding the available channels of cross-layer influence, and their limits, is essential to understanding how the crystallised infrastructure actually operates and evolves.</p>
                 </div>
             </details>
 
@@ -1656,37 +1648,22 @@ single cause.
 
     <div class="section-content">
 
-        <p>
-        The Structural Stack model is intended as an explanatory framework rather than a fixed doctrine. Several forms of evidence could weaken the model.
-        </p>
+        <p>The Structural Stack model is intended as an explanatory framework rather than a fixed doctrine. Several forms of evidence could weaken it. Some conditions that look like tests are not, and are set aside first. That AI systems depend on energy, hardware, and data is close to uncontroversial, so evidence of that dependence confirms the thesis only weakly, and its absence would be extraordinary. The conditions below therefore target the claims that are distinctive to the framework.</p>
 
         <ul>
-
-            <li>
-            Major AI capabilities emerging independently of existing infrastructural layers.
-            </li>
-
-            <li>
-            Agent systems sustaining themselves without dependence on institutional support, physical maintenance, or energy infrastructure.
-            </li>
-
-            <li>
-            Influence consistently bypassing translation requirements between layers.
-            </li>
-
-            <li>
-            Successful technological development repeatedly occurring outside path-dependent constraints.
-            </li>
-
-            <li>
-            The removal of entire layers without significantly affecting system behaviour.
-            </li>
-
+            <li><strong>Differential degrees of freedom.</strong> Mature layers continuing to produce radical, and not merely mutational, change at a rate comparable to layers that are still open, over a sustained period.</li>
+            <li><strong>Cross-layer translation.</strong> A documented case in which an objective, constraint, or resource affects a layer without being re-expressed in that layer&rsquo;s native representations, and in which no hidden translation step can be identified.</li>
+            <li><strong>Stratified retention.</strong> Older methods disappearing quickly and completely once newer ones are available, in layers where switching costs, lock-in, and heterogeneous capacity are all present.</li>
+            <li><strong>Path dependence.</strong> New capabilities repeatedly appearing at scale without building on, or adapting to, the existing layers, so that development is not channelled by the stack.</li>
+            <li><strong>Layer criteria.</strong> The four tests in section 4 (distinct constraints, distinct actors, characteristic pace of change, and asymmetric dependence) failing for most proposed layers, which would suggest that the stack is a convenient description and not a structural one.</li>
+            <li><strong>Removal.</strong> A layer being removed or substituted without significantly affecting system behaviour, which would indicate that the layer is not structural.</li>
         </ul>
 
-        <p>
-        Such observations would require revision or replacement of the Structural Stack framework.
-        </p>
+        <p>Such observations would require revision of the relevant concept and, if they accumulated across several of these conditions, replacement of the Structural Stack framework.</p>
+<h3>Scope and Limitations</h3>
+<p>This thesis is a conceptual and historical analysis. It does not report an empirical test, and the interactive visualisation on this page is a model of the argument and not a measurement.</p>
+<p>Three limitations follow. First, the case studies in section 3 were chosen to illustrate the framework and do not test it; a systematic comparison with other infrastructural technologies, such as electrification or the internet, would be a stronger test. Second, the layers are drawn with the benefit of hindsight. The tests in section 4 are intended to reduce the risk that any technology can be redescribed as a stack after the fact, but they do not remove it. Third, the conditions above are stated qualitatively; operational thresholds for terms such as &ldquo;comparable rate&rdquo; and &ldquo;radical change&rdquo; remain to be specified.</p>
+<p>These limits are one reason the thesis presents the framework as an explanatory aid to be revised as evidence accumulates, and not as an established theory.</p>
 
     </div>
 
@@ -1697,12 +1674,12 @@ single cause.
                 <summary class="section-title">9. Implications</summary>
                 <div class="section-content">
                     <p>The account developed in the preceding sections carries several direct implications for how the present state of AI, and its near-term development, should be understood.</p>
-                    <p>First, further progress is path-dependent on the already-crystallized stack. New capabilities are not created in an open field; they must be built on top of, or by modification of, the existing layers. Approaches that align with the physical substrate, the data-and-weights regime, the available forms of attention, and the institutional constraints will continue to propagate more readily than those that require the architecture to be rewritten. This is why certain technical directions carry structural weight while others, even when locally impressive, remain marginal.</p>
-                    <p>Second, the available degrees of freedom are unevenly distributed across layers. The greatest near-term expansion is occurring where the architecture is still relatively open &mdash; particularly in the agent layer and in the refinement of attention and optimization mechanisms. By contrast, layers that have already matured change primarily by mutation and incremental improvement. Recognizing this distribution prevents the misallocation of expectation: not every domain of the stack is equally plastic.</p>
-                    <p>Third, the retention of older methods is not a temporary inefficiency but a standing feature of the system. Because participants differ in capacity and in tolerance for constraint, the infrastructure must remain stratified. Attempts to force uniform advancement onto the newest layers produce exclusion or fragility. Stable evolution preserves usable degrees of freedom at multiple levels simultaneously.</p>
+                    <p>First, further progress is path-dependent on the already-crystallised stack. New capabilities are not created in an open field; they must be built on top of, or by modification of, the existing layers. Approaches that align with the physical substrate, the data-and-weights regime, the available forms of attention, and the institutional constraints will continue to propagate more readily than those that require the architecture to be rewritten. This is why certain technical directions carry structural weight while others, even when locally impressive, remain marginal.</p>
+                    <p>Second, degrees of freedom are differential: the available room for change is unevenly distributed across layers. As of 2026, the greatest near-term expansion is occurring where the architecture is still relatively open &mdash; particularly in Agent Systems and in the way attention is allocated across layers. By contrast, layers that have already matured change primarily by mutation and incremental improvement. Recognising this distribution prevents the misallocation of expectation: not every domain of the stack is equally plastic.</p>
+                    <p>Third, the retention of older methods is not a temporary inefficiency but a standing feature of the system. Because retention has several reinforcing causes, including differences in participants&rsquo; capacity and tolerance for constraint, the infrastructure remains stratified. Attempts to force uniform advancement onto the newest layers produce exclusion or fragility. Stable evolution preserves usable degrees of freedom at multiple levels simultaneously.</p>
                     <p>Fourth, cross-layer influence is both powerful and limited. Humans and institutions continue to set objectives and maintain the physical plant; AI systems increasingly mediate internal digital activity and generate structures that other systems can use. The balance between these forms of influence is shifting, yet it remains a balance. Claims that humans have already been reduced to passive transmitters, or that the digital layers have achieved full self-sufficiency, overstate the current degree of autonomy. The loop still closes through human goals, capital, and physical upkeep.</p>
-                    <p>Fifth, there is a lag between the crystallization of the infrastructure and its widespread mapping. The stack became real before it became commonly articulated as architecture. This lag produces a characteristic disorientation: many people sense that the ground has shifted, yet lack a shared structural account of what has shifted and how the layers now relate. Making the infrastructure explicit reduces that gap. It replaces diffuse impressions of saturation, acceleration, or loss of control with a more precise description of constraints, freedoms, and dependencies.</p>
-                    <p>Finally, the most consequential open questions are themselves architectural. Where can the degrees of freedom still be expanded without destabilizing the lower layers? How cleanly can influence be translated across levels? How much of the older stack must be maintained to keep the whole inhabitable? These questions follow directly from the nature of the crystallized infrastructure. They cannot be answered by technical innovation alone; they require continuous attention to the relations that hold the stack together.</p>
+                    <p>Fifth, there is a lag between the crystallisation of the infrastructure and its widespread mapping. The stack became real before it became commonly articulated as architecture. This thesis suggests, as a hypothesis and not an established finding, that the lag produces a characteristic disorientation: many people sense that the ground has shifted, yet may lack a shared structural account of what has shifted and how the layers now relate. Making the infrastructure explicit reduces that gap. It replaces diffuse impressions of saturation, acceleration, or loss of control with a more precise description of constraints, freedoms, and dependencies.</p>
+                    <p>Finally, the most consequential open questions are themselves architectural. Where can the degrees of freedom still be expanded without destabilising the lower layers? How cleanly can influence be translated across levels? How much of the older stack must be maintained to keep the whole inhabitable? These questions follow directly from the nature of the crystallised infrastructure. They cannot be answered by technical innovation alone; they require continuous attention to the relations that hold the stack together.</p>
                     <p>In sum, the implications are structural. Development will continue, but it will continue inside an architecture that is already largely formed. Understanding that architecture &mdash; its preconditions, its layers, its degrees of freedom, its mutations, and its channels of influence &mdash; is now a prerequisite for clear thought about what AI is and what it can become.</p>
                 </div>
             </details>
@@ -1710,80 +1687,63 @@ single cause.
             <details id="conclusion" name="thesis" class="section-dropdown">
                 <summary class="section-title">10. Conclusion</summary>
                 <div class="section-content">
-                    <p>Modern AI rests on a structural infrastructure that had to come into existence before the systems themselves could appear. That infrastructure was not supplied by a pre-given blueprint. It crystallized when a set of independent preconditions &mdash; physical, mathematical, informational, economic, institutional, and cultural &mdash; finally converged. Once those conditions cohered, they formed a layered stack whose relations are now stable enough to be mapped and explained.</p>
-                    <p>Within this stack, development proceeds by the exploration of degrees of freedom that differ from layer to layer. Some layers remain relatively open; others have matured and change mainly by mutation. Older methods are retained alongside newer ones so that the architecture can continue to serve participants of unequal capacity. Influence moves across layers, yet it must be translated into forms each layer can accept. The result is a coherent, stratified, and path-dependent system.</p>
-                    <p>The present moment is defined by this architecture. Capable AI systems are the visible surface of a deeper set of dependencies that reach from energy and silicon up through data, weights, attention, agents, and human institutions. Further advances will be shaped by the freedoms the stack still permits and by the constraints it continues to impose. Understanding the stack as infrastructure &mdash; how it formed, how it is layered, and how it channels change &mdash; therefore provides a clearer basis for thought and action than narratives that treat AI as an isolated technical event.</p>
+                    <p>Modern AI rests on a structural infrastructure that had to come into existence before the systems themselves could appear. That infrastructure was not supplied by a pre-given blueprint. It crystallised when a set of independent preconditions &mdash; physical, mathematical, informational, economic, institutional, and cultural &mdash; finally converged. Once those conditions cohered, they formed a layered stack whose relations are now stable enough to be mapped and explained.</p>
+                    <p>Within this stack, development proceeds by the exploration of degrees of freedom that differ from layer to layer. Some layers remain relatively open; others have matured and change mainly by mutation. Older methods are retained alongside newer ones through several reinforcing pressures, among them the need to serve participants of unequal capacity. Influence moves across layers, yet it must be translated into forms each layer can accept. The result is a coherent, stratified, and path-dependent system.</p>
+                    <p>The present moment is defined by this architecture. Capable AI systems are the visible surface of a deeper set of dependencies that reach from energy and silicon up through Compute &amp; Transport, Data &amp; Models, and Agent Systems to Institutional Systems and Human Objectives, with attention allocating resources across all of them. Further advances will be shaped by the freedoms the stack still permits and by the constraints it continues to impose. Understanding the stack as infrastructure &mdash; how it formed, how it is layered, and how it channels change &mdash; therefore provides a clearer basis for thought and action than narratives that treat AI as an isolated technical event.</p>
 
 
+<h3>Answers to the Research Questions</h3>
+<p>Returning to the four questions posed in the Introduction: first, modern AI is best understood as the visible surface of six interlocking Structural Layers, from Physical Infrastructure to Human Objectives, with attention operating across them. Second, its necessary preconditions were physical, mathematical, informational, computational, economic, and cultural, and they converged for independent reasons. Third, influence moves across layers only by being translated into the native forms of the receiving layer, and it meets friction where translation fails. Fourth, future development is constrained by differential degrees of freedom and by stratified retention: it proceeds fastest where layers are still open and is slowed where mature layers, older methods, and institutional pressures hold. Section 8 states what evidence would weaken these answers.</p>
+<p>The architecture was not deliberately designed as a unified system. It emerged through convergence, became visible through crystallisation, and now serves as the terrain within which further AI development occurs.</p>
+
+
+                </div>
+            </details>
+
+            <details id="references" name="thesis" class="section-dropdown">
+                <summary class="section-title">11. References &amp; Acknowledgements</summary>
+                <div class="section-content">
 <h3>References</h3>
-
-<p>
-Arthur, W. Brian. <em>Increasing Returns and Path Dependence in the Economy.</em>
-University of Michigan Press, 1994.
-</p>
-
-<p>
-Hughes, Thomas P. <em>Networks of Power: Electrification in Western Society, 1880–1930.</em>
-Johns Hopkins University Press, 1983.
-</p>
-
-<p>
-Perez, Carlota. <em>Technological Revolutions and Financial Capital: The Dynamics of Bubbles and Golden Ages.</em>
-Edward Elgar Publishing, 2002.
-</p>
-
-<p>
-Simon, Herbert A. <em>The Architecture of Complexity.</em>
-Proceedings of the American Philosophical Society, Vol. 106, No. 6, 1962.
-</p>
-
-<p>
-Vaswani, Ashish et al. <em>Attention Is All You Need.</em>
-Advances in Neural Information Processing Systems (NeurIPS), 2017.
-</p>
-
-<p>
-Common Crawl Foundation. <em>Common Crawl Open Repository of Web Crawl Data.</em>
-<a href="https://commoncrawl.org" target="_blank" rel="noopener noreferrer">https://commoncrawl.org</a>
-</p>
-
-<p>
-NVIDIA Corporation. <em>GPU Computing and CUDA Platform Documentation.</em>
-<a href="https://developer.nvidia.com" target="_blank" rel="noopener noreferrer">https://developer.nvidia.com</a>
-</p><br>
-
+<p>Amodei, Dario, et al. <em>Concrete Problems in AI Safety.</em> arXiv preprint arXiv:1606.06565, 2016.</p>
+<p> Arthur, W. Brian. <em>Increasing Returns and Path Dependence in the Economy.</em> University of Michigan Press, 1994. </p>
+<p>Bratton, Benjamin H. <em>The Stack: On Software and Sovereignty.</em> MIT Press, 2015.</p>
+<p>Christiano, Paul F., et al. <em>Deep Reinforcement Learning from Human Preferences.</em> Advances in Neural Information Processing Systems (NeurIPS), 2017.</p>
+<p> Hughes, Thomas P. <em>Networks of Power: Electrification in Western Society, 1880–1930.</em> Johns Hopkins University Press, 1983. </p>
+<p>Krizhevsky, Alex, Ilya Sutskever, and Geoffrey E. Hinton. <em>ImageNet Classification with Deep Convolutional Neural Networks.</em> Advances in Neural Information Processing Systems (NIPS), 2012.</p>
+<p>Ouyang, Long, et al. <em>Training Language Models to Follow Instructions with Human Feedback.</em> Advances in Neural Information Processing Systems (NeurIPS), 2022.</p>
+<p> Perez, Carlota. <em>Technological Revolutions and Financial Capital: The Dynamics of Bubbles and Golden Ages.</em> Edward Elgar Publishing, 2002. </p>
+<p>Raina, Rajat, Anand Madhavan, and Andrew Y. Ng. <em>Large-Scale Deep Unsupervised Learning Using Graphics Processors.</em> Proceedings of the 26th International Conference on Machine Learning (ICML), 2009.</p>
+<p> Simon, Herbert A. <em>The Architecture of Complexity.</em> Proceedings of the American Philosophical Society, Vol. 106, No. 6, 1962. </p>
+<p>Star, Susan Leigh. <em>The Ethnography of Infrastructure.</em> American Behavioral Scientist, Vol. 43, No. 3, 1999.</p>
+<p> Vaswani, Ashish et al. <em>Attention Is All You Need.</em> Advances in Neural Information Processing Systems (NeurIPS), 2017. </p>
+<p> Common Crawl Foundation. <em>Common Crawl Open Repository of Web Crawl Data.</em> <a href="https://commoncrawl.org" target="_blank" rel="noopener noreferrer">https://commoncrawl.org</a> </p>
+<p> NVIDIA Corporation. <em>GPU Computing and CUDA Platform Documentation.</em> <a href="https://developer.nvidia.com" target="_blank" rel="noopener noreferrer">https://developer.nvidia.com</a> </p>
 
 <h3>Acknowledgements & Development Tools</h3>
 <p>
-The interactive Structural Stack visualization and
+The interactive Structural Stack visualisation and
 associated research materials were developed with
 assistance from multiple AI systems and software
 platforms including Microsoft Copilot, Claude,
 Grok, OpenAI language models, Three.js, React,
-Radix UI, and modern web visualization tools.
+Radix UI, and modern web visualisation tools.
 </p>
-
 <p>
 These systems were used to assist with conceptual
 exploration, iterative review, editing, software
-development, visualization design, and technical
+development, visualisation design, and technical
 implementation. Responsibility for the framework,
 interpretations, conclusions, and final published
 content remains with the author.
 </p>
-
 <p>
 This work forms part of a broader body of research
 and development including the Structural Stack
 framework, ARC, TFM-GL, DTSIM, C-DR to date 15/10/2026.
 </p>
-
-
-                    <p>------------------<br>The architecture was not deliberately designed as a unified system. It emerged through convergence, became visible through crystallization, and now serves as the terrain within which further AI development occurs.</p>
-
-
                 </div>
             </details>
+
 
 
         </main>
@@ -1793,7 +1753,7 @@ framework, ARC, TFM-GL, DTSIM, C-DR to date 15/10/2026.
 
         <section class="widget-section">
             <div class="widget-header">
-                <span>Telemetry & Resonance Engine</span>
+                <span>Structural Stack Model</span>
                 <span style="font-size:0.75rem;color:var(--text-muted);">
                 </span>
             </div>

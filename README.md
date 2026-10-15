@@ -8,17 +8,19 @@ visualisation of that stack.
 
 ## What is in the thesis
 
-The preconditions that converged, how they formed a layered stack, the degrees of
-freedom within it, how older methods are retained while layers mutate, how influence
-is translated across layers, the conditions that would weaken the model, and the
-implications.
+The preconditions that converged, how they formed six Structural Layers, the
+differential degrees of freedom within them, stratified retention of older methods,
+how influence is translated across layers (with worked examples), the conditions
+that would weaken the model, its limitations, and the implications.
 
 ## The interactive panel
 
 The widget is an **illustrative structural model, not empirical telemetry**. Its
-sliders (Infrastructure, Cross-Layer Influence, Agent Autonomy, Mutation Pressure,
-Speed) and layer toggles show how the argument's ideas could behave. They are not
-measured values. Drag to rotate, use the enlarge button for a full-screen view.
+sliders (Infrastructure Resilience, Cross-Layer Translation, Agent Coordination,
+Mutation Pressure, Speed) and the six layer toggles (Physical Infrastructure,
+Compute & Transport, Data & Models, Agent Systems, Institutional Systems, Human
+Objectives) show how the argument's ideas could behave. They are not measured
+values. Drag to rotate, and use the enlarge button for a full-screen view.
 
 ## Running it locally
 
