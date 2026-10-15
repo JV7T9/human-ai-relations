@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0f172a">
     <meta name="description" content="A structural account of modern AI as infrastructure that had to crystallize before the systems could exist: its layers, degrees of freedom, and the conditions that would weaken the model.">
     <meta name="author" content="JV7T9">
     <meta property="og:type" content="article">
@@ -89,7 +90,13 @@ const STATE_METRICS = [
 
 function App() {
   const canvasRef = useRef(null);
-  const [isPlaying, setIsPlaying] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(() => {
+    try {
+      return !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    } catch (e) {
+      return true;
+    }
+  });
   const [metrics, setMetrics] = useState({
     infra: 0.972,
     cross: 0.841,
@@ -144,7 +151,8 @@ const [layers, setLayers] = useState({
       powerPreference: "high-performance"
     });
     renderer.setSize(width, height, false);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    const isTouch = window.matchMedia("(pointer: coarse)").matches;
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, isTouch ? 1.5 : 2));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.NeutralToneMapping;
     const rootGroup = new THREE.Group();
@@ -349,6 +357,7 @@ const [layers, setLayers] = useState({
     canvas.addEventListener("pointerdown", onPointerDown);
     window.addEventListener("pointermove", onPointerMove);
     window.addEventListener("pointerup", onPointerUp);
+    window.addEventListener("pointercancel", onPointerUp);
     const handleResize = () => {
       if (!canvas) return;
       const w = canvas.clientWidth;
@@ -476,6 +485,7 @@ const [layers, setLayers] = useState({
       canvas.removeEventListener("pointerdown", onPointerDown);
       window.removeEventListener("pointermove", onPointerMove);
       window.removeEventListener("pointerup", onPointerUp);
+      window.removeEventListener("pointercancel", onPointerUp);
       renderer.dispose();
       lineGeometry.dispose();
       lineMaterial.dispose();
@@ -1304,6 +1314,95 @@ summary.section-title:hover {
         }
 
         footer a:hover { text-decoration: none; }
+
+        /* ---- Mobile / touch optimisation ---- */
+        html { -webkit-text-size-adjust: 100%; }
+
+        button, summary, .wg-layer { -webkit-tap-highlight-color: transparent; }
+
+        /* Touch devices: comfortable hit targets, and don't trap page scrolling */
+        @media (pointer: coarse) {
+            nav.toc a {
+                display: block;
+                padding: 0.6rem 0;
+            }
+
+            nav.toc li { margin-bottom: 0; }
+
+            .wg-play,
+            .wg-expand {
+                width: 2.75rem;
+                height: 2.75rem;
+            }
+
+            .wg-expand { right: 4rem; }
+
+            .wg-slider { height: 2.75rem; }
+
+            .wg-thumb {
+                width: 22px;
+                height: 22px;
+            }
+
+            .wg-toggle-item {
+                padding: 0.65rem 0.75rem;
+                font-size: 0.9rem;
+            }
+
+            .wg-layer {
+                min-height: 2.75rem;
+                padding: 0.6rem 0.5rem;
+            }
+
+            .wg-summary,
+            summary.section-title { min-height: 3rem; }
+
+            /* let a vertical swipe on the canvas scroll the page; enlarged view keeps full drag */
+            .wg-root:not(.is-expanded) .wg-canvas { touch-action: pan-y; }
+        }
+
+        /* Small screens: tighter layout and more readable text */
+        @media (max-width: 700px) {
+            .page-container { padding: 1.5rem 1rem 2rem; }
+
+            header {
+                margin-top: 0rem;
+                margin-bottom: 1.5rem;
+                padding-bottom: 1rem;
+            }
+
+            h1 { font-size: clamp(1rem, 4.6vw, 1.85rem); }
+
+            .subtitle {
+                font-size: 0.72rem;
+                letter-spacing: 0.1em;
+            }
+
+            summary.section-title {
+                padding: 0.9rem 1rem;
+                font-size: 0.9rem;
+                line-height: 1.4;
+                gap: 0.75rem;
+            }
+
+            .section-content { padding: 0 1rem 1.25rem; }
+
+            p {
+                font-size: 1rem;
+                line-height: 1.7;
+            }
+
+            .content-layout { gap: 1.5rem; }
+
+            .wg-root:not(.is-expanded) .wg-stage { aspect-ratio: 4 / 3; }
+
+            .wg-summary { padding: 0.9rem 1rem; }
+            .wg-body { padding: 0.25rem 1rem 1.25rem; }
+
+            footer { margin-top: 2rem; }
+
+            .model-note { font-size: 0.75rem !important; line-height: 1.5; }
+        }
     </style>
 </head>
 <body>
@@ -1700,7 +1799,7 @@ framework, ARC, TFM-GL, DTSIM, C-DR to date 15/10/2026.
             </div>
 
             <div id="widget-root"></div>
-<div style="
+<div class="model-note" style="
 font-size:0.65rem;
 color:var(--text-muted);
 padding:0.5rem 1rem;
