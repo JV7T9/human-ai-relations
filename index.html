@@ -16,7 +16,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Michroma&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     
-    <!-- React & Three.js Libraries for the Widget -->
     <script type="module" crossorigin>
 import { jsxs, jsx } from 'https://widgetlibs.static.usercontent.goog/react/jsx-runtime-Dc9ViRTo.js';
 import React, { useRef, useState, useEffect } from 'https://widgetlibs.static.usercontent.goog/react-Dd1pKoqe.js';
@@ -112,12 +111,10 @@ const [layers, setLayers] = useState({
   human: true
 });
   const [direction, setDirection] = useState("forward");
-  // Speed: -1 (slowest) .. 0 (default) .. +1 (fastest)
   const [speed, setSpeed] = useState(0);
   const [openSections, setOpenSections] = useState({ state: true, layers: true });
   const [expanded, setExpanded] = useState(false);
 
-  // Enlarged mode: lock page scroll behind the overlay and close on Esc
   useEffect(() => {
     if (!expanded) return;
     document.body.classList.add("wg-expanded");
@@ -131,7 +128,6 @@ const [layers, setLayers] = useState({
     };
   }, [expanded]);
 
-  // The animation loop reads the latest control state from this ref.
   const stateRef = useRef(null);
   stateRef.current = { isPlaying, metrics, layers, direction, speed };
 
@@ -166,7 +162,6 @@ const [layers, setLayers] = useState({
     pointLight.position.set(0, 0, 0);
     scene.add(pointLight);
 
-    // Visualised stack layers: 0 = Physical Infrastructure, 1 = Compute & Transport, 2 = Data & Models
     const gearCenters = [
       new THREE.Vector3(0, -0.6, 0),
       new THREE.Vector3(-4.4, 2.2, 0.4),
@@ -286,7 +281,6 @@ const [layers, setLayers] = useState({
     const lineMesh = new THREE.LineSegments(lineGeometry, lineMaterial);
     rootGroup.add(lineMesh);
 
-    // Agent Networks: impulses travelling along the lattice edges
     const impulseCount = 90;
     const impulseGeom = new THREE.BufferGeometry();
     const impulsePositions = new Float32Array(impulseCount * 3);
@@ -383,10 +377,10 @@ const [layers, setLayers] = useState({
       const L = st.layers;
       const layerOn = [L.physical,L.compute,L.models];
       const dirMultiplier = st.direction === "forward" ? 1 : -1;
-      // 0 = default pace; -1 = quarter speed; +1 = 4x speed
+
       const speedScale = Math.pow(4, st.speed);
 
-      // Layer toggles apply even while paused
+
       clusterMeshes.forEach((meshes, ci) => {
         meshes.forEach((m) => {
           m.visible = layerOn[ci];
@@ -402,10 +396,10 @@ const [layers, setLayers] = useState({
           rotVelX *= 0.94;
           rotVelY *= 0.94;
         }
-        // Infrastructure: how solid and bright the lattice reads
+
         lineMaterial.opacity = 0.25 + 0.55 * infra;
         pointLight.intensity = 1 + 3 * infra;
-        // Mutation Pressure: variation within the saturated layers
+
         nodes.forEach((node, idx) => {
           const center = gearCenters[node.cluster];
           const radius = gearRadii[node.cluster];
@@ -431,7 +425,7 @@ const [layers, setLayers] = useState({
           linePositions[posIdx++] = nodeB.pos.y;
           linePositions[posIdx++] = nodeB.pos.z;
           if (edge.isInterCluster) {
-            // Cross-Layer Influence edges, carried by Human Institutions (amber)
+
             const on = L.human && layerOn[nodeA.cluster] && layerOn[nodeB.cluster] ? 1 : 0;
             const intensity = (0.15 + 0.85 * cross) * on;
             lineColors[colIdx++] = 0.98 * intensity;
@@ -454,7 +448,7 @@ const [layers, setLayers] = useState({
         lineGeometry.attributes.position.needsUpdate = true;
         lineGeometry.attributes.color.needsUpdate = true;
 
-        // Agent Autonomy: how many impulses travel, and how fast
+
         impulseGeom.setDrawRange(0, Math.max(1, Math.round(impulseCount * agent)));
         const impPos = impulsePositions;
         const speedFactor = (0.8 + cross * 1.5) * (0.5 + agent * 1.5) * 0.7 * speedScale;
@@ -504,20 +498,20 @@ const [layers, setLayers] = useState({
   const setMetric = (id, value) => setMetrics((prev) => ({ ...prev, [id]: value }));
   const toggleLayer = (id) => setLayers((prev) => ({ ...prev, [id]: !prev[id] }));
 
-  return /* @__PURE__ */ jsx("div", {
+  return  jsx("div", {
     className: "wg-root" + (expanded ? " is-expanded" : ""),
     onMouseDown: (e) => {
-      // clicking the dimmed backdrop (outside the panel) closes the enlarged view
+
       if (expanded && e.target === e.currentTarget) setExpanded(false);
     },
-    children: /* @__PURE__ */ jsxs("div", {
+    children: jsxs("div", {
       className: "wg-shell",
       role: expanded ? "dialog" : void 0,
       "aria-modal": expanded ? "true" : void 0,
       "aria-label": expanded ? "Structural stack simulation, enlarged" : void 0,
       children: [
-    /* @__PURE__ */ jsxs("div", { className: "wg-stage", children: [
-      /* @__PURE__ */ jsx(
+     jsxs("div", { className: "wg-stage", children: [
+       jsx(
         "canvas",
         {
           ref: canvasRef,
@@ -526,7 +520,7 @@ const [layers, setLayers] = useState({
           className: "wg-canvas"
         }
       ),
-      /* @__PURE__ */ jsx(
+      jsx(
         "button",
         {
           type: "button",
@@ -535,23 +529,23 @@ const [layers, setLayers] = useState({
           "aria-pressed": expanded,
           title: expanded ? "Close (Esc)" : "Enlarge",
           className: "wg-expand",
-          children: /* @__PURE__ */ jsx("span", { className: "material-icons", children: expanded ? "fullscreen_exit" : "fullscreen" })
+          children: jsx("span", { className: "material-icons", children: expanded ? "fullscreen_exit" : "fullscreen" })
         }
       ),
-      /* @__PURE__ */ jsx(
+      jsx(
         "button",
         {
           type: "button",
           onClick: () => setIsPlaying((prev) => !prev),
           "aria-label": isPlaying ? "Pause animation" : "Play animation",
           className: "wg-play",
-          children: /* @__PURE__ */ jsx("span", { className: "material-icons", children: isPlaying ? "pause" : "play_arrow" })
+          children: jsx("span", { className: "material-icons", children: isPlaying ? "pause" : "play_arrow" })
         }
       )
     ] }),
 
-    /* @__PURE__ */ jsxs("div", { className: "wg-controls", children: [
-    /* @__PURE__ */ jsxs("details", {
+    jsxs("div", { className: "wg-controls", children: [
+    jsxs("details", {
       className: "wg-section",
       open: openSections.state,
       onToggle: (e) => {
@@ -559,14 +553,14 @@ const [layers, setLayers] = useState({
         setOpenSections((prev) => prev.state === isOpen ? prev : { ...prev, state: isOpen });
       },
       children: [
-      /* @__PURE__ */ jsx("summary", { className: "wg-summary", children: /* @__PURE__ */ jsx("span", { className: "wg-heading", children: "Structural State" }) }),
-      /* @__PURE__ */ jsxs("div", { className: "wg-body", children: [
-      STATE_METRICS.map((m) => /* @__PURE__ */ jsxs("div", { className: "wg-row", title: m.hint, children: [
-        /* @__PURE__ */ jsxs("div", { className: "wg-row-head", children: [
-          /* @__PURE__ */ jsx("span", { className: "wg-label", children: m.label }),
-          /* @__PURE__ */ jsxs("span", { className: "wg-value", children: [(metrics[m.id] * 100).toFixed(1), "%"] })
+      jsx("summary", { className: "wg-summary", children:  jsx("span", { className: "wg-heading", children: "Structural State" }) }),
+       jsxs("div", { className: "wg-body", children: [
+      STATE_METRICS.map((m) =>  jsxs("div", { className: "wg-row", title: m.hint, children: [
+         jsxs("div", { className: "wg-row-head", children: [
+           jsx("span", { className: "wg-label", children: m.label }),
+           jsxs("span", { className: "wg-value", children: [(metrics[m.id] * 100).toFixed(1), "%"] })
         ] }),
-        /* @__PURE__ */ jsxs(
+         jsxs(
           Slider.Root,
           {
             "aria-label": m.label,
@@ -577,21 +571,21 @@ const [layers, setLayers] = useState({
             step: 1e-3,
             onValueChange: (vals) => setMetric(m.id, vals[0]),
             children: [
-              /* @__PURE__ */ jsx(Slider.Track, { className: "wg-track", children: /* @__PURE__ */ jsx(Slider.Range, { className: "wg-range" }) }),
-              /* @__PURE__ */ jsx(Slider.Thumb, { className: "wg-thumb", "aria-label": m.label + " handle" })
+              jsx(Slider.Track, { className: "wg-track", children:  jsx(Slider.Range, { className: "wg-range" }) }),
+               jsx(Slider.Thumb, { className: "wg-thumb", "aria-label": m.label + " handle" })
             ]
           }
         )
       ] }, m.id)),
-      /* @__PURE__ */ jsxs("div", { className: "wg-row", title: "Left slows the animation, right speeds it up, centre is the default pace", children: [
-        /* @__PURE__ */ jsxs("div", { className: "wg-row-head", children: [
-          /* @__PURE__ */ jsx("span", { className: "wg-label", children: "Speed" }),
-          /* @__PURE__ */ jsxs("span", { className: "wg-value", children: [
+       jsxs("div", { className: "wg-row", title: "Left slows the animation, right speeds it up, centre is the default pace", children: [
+        jsxs("div", { className: "wg-row-head", children: [
+         jsx("span", { className: "wg-label", children: "Speed" }),
+           jsxs("span", { className: "wg-value", children: [
             speed === 0 ? "0" : (speed > 0 ? "+" : "\u2212") + Math.abs(speed * 100).toFixed(0),
-            /* @__PURE__ */ jsxs("span", { className: "wg-sub", children: [" \u00b7 ", Math.pow(4, speed).toFixed(2), "\u00d7"] })
+             jsxs("span", { className: "wg-sub", children: [" \u00b7 ", Math.pow(4, speed).toFixed(2), "\u00d7"] })
           ] })
         ] }),
-        /* @__PURE__ */ jsxs(
+         jsxs(
           Slider.Root,
           {
             "aria-label": "Speed",
@@ -602,25 +596,25 @@ const [layers, setLayers] = useState({
             step: 0.01,
             onValueChange: (vals) => setSpeed(Math.abs(vals[0]) < 0.04 ? 0 : vals[0]),
             children: [
-              /* @__PURE__ */ jsxs(Slider.Track, { className: "wg-track", children: [
-                /* @__PURE__ */ jsx("span", { className: "wg-center-tick" }),
-                /* @__PURE__ */ jsx("span", { className: "wg-center-fill", style: {
+              jsxs(Slider.Track, { className: "wg-track", children: [
+                jsx("span", { className: "wg-center-tick" }),
+                jsx("span", { className: "wg-center-fill", style: {
                   left: speed < 0 ? (50 + speed * 50) + "%" : "50%",
                   width: Math.abs(speed) * 50 + "%"
                 } })
               ] }),
-              /* @__PURE__ */ jsx(Slider.Thumb, { className: "wg-thumb", "aria-label": "Speed handle" })
+              jsx(Slider.Thumb, { className: "wg-thumb", "aria-label": "Speed handle" })
             ]
           }
         ),
-        /* @__PURE__ */ jsxs("div", { className: "wg-scale", "aria-hidden": "true", children: [
-          /* @__PURE__ */ jsx("span", { children: "Slower" }),
-          /* @__PURE__ */ jsx("span", { children: "Faster" })
+        jsxs("div", { className: "wg-scale", "aria-hidden": "true", children: [
+          jsx("span", { children: "Slower" }),
+          jsx("span", { children: "Faster" })
         ] })
       ] }),
-      /* @__PURE__ */ jsxs("div", { className: "wg-row", children: [
-        /* @__PURE__ */ jsx("span", { className: "wg-label", children: "Flow Direction" }),
-        /* @__PURE__ */ jsxs(
+      jsxs("div", { className: "wg-row", children: [
+        jsx("span", { className: "wg-label", children: "Flow Direction" }),
+        jsxs(
           ToggleGroup.Root,
           {
             type: "single",
@@ -631,8 +625,8 @@ const [layers, setLayers] = useState({
             "aria-label": "Direction of influence through the stack",
             className: "wg-toggle",
             children: [
-              /* @__PURE__ */ jsx(ToggleGroup.Item, { value: "forward", className: "wg-toggle-item", children: "Forward" }),
-              /* @__PURE__ */ jsx(ToggleGroup.Item, { value: "reverse", className: "wg-toggle-item", children: "Reverse" })
+             jsx(ToggleGroup.Item, { value: "forward", className: "wg-toggle-item", children: "Forward" }),
+              jsx(ToggleGroup.Item, { value: "reverse", className: "wg-toggle-item", children: "Reverse" })
             ]
           }
         )
@@ -640,7 +634,7 @@ const [layers, setLayers] = useState({
       ] })
     ] }),
 
-    /* @__PURE__ */ jsxs("details", {
+   jsxs("details", {
       className: "wg-section",
       open: openSections.layers,
       onToggle: (e) => {
@@ -648,8 +642,8 @@ const [layers, setLayers] = useState({
         setOpenSections((prev) => prev.layers === isOpen ? prev : { ...prev, layers: isOpen });
       },
       children: [
-      /* @__PURE__ */ jsx("summary", { className: "wg-summary", children: /* @__PURE__ */ jsx("span", { className: "wg-heading", children: "Active Layers" }) }),
-      /* @__PURE__ */ jsx("div", { className: "wg-body", children: /* @__PURE__ */ jsx("ul", { className: "wg-layers", children: LAYERS.map((l) => /* @__PURE__ */ jsx("li", { children: /* @__PURE__ */ jsxs(
+      jsx("summary", { className: "wg-summary", children: jsx("span", { className: "wg-heading", children: "Active Layers" }) }),
+       jsx("div", { className: "wg-body", children: jsx("ul", { className: "wg-layers", children: LAYERS.map((l) => jsx("li", { children: jsxs(
         "button",
         {
           type: "button",
@@ -658,8 +652,8 @@ const [layers, setLayers] = useState({
           onClick: () => toggleLayer(l.id),
           style: { "--c": l.color },
           children: [
-            /* @__PURE__ */ jsx("span", { className: "wg-dot" }),
-            /* @__PURE__ */ jsx("span", { children: l.label })
+            jsx("span", { className: "wg-dot" }),
+             jsx("span", { children: l.label })
           ]
         }
       ) }, l.id)) }) })
@@ -671,7 +665,7 @@ const [layers, setLayers] = useState({
 }
 
 ReactDOM.createRoot(document.getElementById("widget-root")).render(
-  /* @__PURE__ */ jsx(React.StrictMode, { children: /* @__PURE__ */ jsx(App, {}) })
+  jsx(React.StrictMode, { children:  jsx(App, {}) })
 );
     </script>
 
@@ -781,7 +775,7 @@ ReactDOM.createRoot(document.getElementById("widget-root")).render(
             margin-bottom: -0.5rem;
         }
 
-        /* Interactive Widget Container placed right under the header */
+
         .widget-section {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -933,7 +927,7 @@ summary.section-title:hover {
             font-size: 0.8rem;
         }
 
-        /* ---- Control panel (widget) ---- */
+
         .wg-root {
             width: 100%;
             background: var(--card-bg);
@@ -1198,7 +1192,7 @@ summary.section-title:hover {
             color: var(--text-muted);
         }
 
-        /* ---- Enlarge button + enlarged (overlay) mode ---- */
+
         .wg-expand {
             position: absolute;
             top: 0.75rem;
@@ -1227,7 +1221,7 @@ summary.section-title:hover {
 
         body.wg-expanded { overflow: hidden; }
 
-        /* a sticky parent would trap the fixed overlay; release it while enlarged */
+
         body.wg-expanded .feature-panel { position: static; }
 
         .wg-root.is-expanded {
@@ -1315,12 +1309,12 @@ summary.section-title:hover {
 
         footer a:hover { text-decoration: none; }
 
-        /* ---- Mobile / touch optimisation ---- */
+ 
         html { -webkit-text-size-adjust: 100%; }
 
         button, summary, .wg-layer { -webkit-tap-highlight-color: transparent; }
 
-        /* Touch devices: comfortable hit targets, and don't trap page scrolling */
+
         @media (pointer: coarse) {
             nav.toc a {
                 display: block;
@@ -1357,15 +1351,16 @@ summary.section-title:hover {
             .wg-summary,
             summary.section-title { min-height: 3rem; }
 
-            /* let a vertical swipe on the canvas scroll the page; enlarged view keeps full drag */
+
             .wg-root:not(.is-expanded) .wg-canvas { touch-action: pan-y; }
         }
 
-        /* Small screens: tighter layout and more readable text */
+
         @media (max-width: 700px) {
             .page-container { padding: 1.5rem 1rem 2rem; }
 
             header {
+			    margin-top: 0rem;
                 margin-bottom: 1.5rem;
                 padding-bottom: 1rem;
             }
@@ -1424,7 +1419,7 @@ summary.section-title:hover {
             margin: 1.5rem 0 0.25rem;
         }
 
-        /* Thesis Content wraps the ten numbered sections */
+
         #thesis-content > .section-content { padding-top: 1rem; }
 
         #thesis-content details.section-dropdown {
@@ -1443,7 +1438,7 @@ summary.section-title:hover {
             }
         }
 
-        /* ---- Cross-Layer Translation diagram ---- */
+
         .translation-card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -1512,7 +1507,7 @@ summary.section-title:hover {
             color: var(--c);
         }
 
-        /* connector line, arrowhead and label between consecutive steps */
+
         .ct-node + .ct-node::before {
             content: "";
             position: absolute;
@@ -1560,18 +1555,16 @@ summary.section-title:hover {
 <body>
 
     <div class="page-container">
-        <!-- Header -->
+
         <header>
             <h1>HUMAN-AI&nbsp;&nbsp;RELATIONS</h1>
             <div class="subtitle">Mapping the structural stack</div>
             <div class="author"></div>
         </header>
 
-        <!-- Interactive Widget Container placed right under the header -->
+
 <div class="content-layout">
 
-
-    <!-- LEFT PANEL -->
     <main class="thesis-panel">
 
 <details class="section-dropdown">
@@ -1592,7 +1585,7 @@ summary.section-title:hover {
     </div>
 </details>
 
-        <!-- Table of Contents -->
+
         <nav class="toc" aria-label="Table of contents">
             <details class="section-dropdown toc-dropdown">
             <summary class="section-title">Table of Contents</summary>
@@ -1926,7 +1919,7 @@ framework, ARC, TFM-GL, DTSIM, C-DR to date 15/10/2026.
             </section>
         </main>
 
-    <!-- RIGHT PANEL -->
+
     <aside class="feature-panel">
 
         <section class="widget-section">
@@ -1967,7 +1960,7 @@ Illustrative Structural Model • Not empirical telemetry
                     sections.forEach(function (other) {
                         if (other !== d && other.open) other.open = false;
                     });
-                    // Closing a long section above can push this one off-screen
+  
                     var top = d.getBoundingClientRect().top;
                     if (top < 0 || top > window.innerHeight - 80) {
                         d.scrollIntoView({ block: 'start' });
@@ -1997,7 +1990,7 @@ Illustrative Structural Model • Not empirical telemetry
                         openWithParents(target);
                         target.scrollIntoView({ block: 'start' });
                     }
-                } catch (e) { /* ignore invalid hashes */ }
+                } catch (e) { }
             }
         })();
     </script>
