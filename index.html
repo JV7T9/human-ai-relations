@@ -1303,7 +1303,7 @@ summary.section-title:hover {
 
         p a:hover { text-decoration: none; }
 
-        details.section-dropdown[name="thesis"] {
+        details.section-dropdown {
             scroll-margin-top: 1rem;
         }
 
@@ -1423,6 +1423,25 @@ summary.section-title:hover {
             color: var(--accent-color);
             margin: 1.5rem 0 0.25rem;
         }
+
+        /* Thesis Content wraps the ten numbered sections */
+        #thesis-content > .section-content { padding-top: 1rem; }
+
+        #thesis-content details.section-dropdown {
+            background: rgba(15, 23, 42, 0.55);
+            box-shadow: none;
+        }
+
+        #thesis-content details.section-dropdown:last-child { margin-bottom: 0; }
+
+        nav.toc li.toc-unnumbered { list-style: none; }
+
+        @media (max-width: 700px) {
+            #thesis-content > .section-content {
+                padding-left: 0.6rem;
+                padding-right: 0.6rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1476,13 +1495,16 @@ summary.section-title:hover {
                 <li><a href="#falsification">Conditions That Would Weaken the Model</a></li>
                 <li><a href="#implications">Implications</a></li>
                 <li><a href="#conclusion">Conclusion</a></li>
-                <li><a href="#references">References &amp; Acknowledgements</a></li>
+                <li class="toc-unnumbered"><a href="#references">References</a></li>
             </ol>
             </div>
             </details>
         </nav>
 
-            <details id="introduction" name="thesis" class="section-dropdown">
+            <details id="thesis-content" class="section-dropdown">
+                <summary class="section-title">Thesis Content</summary>
+                <div class="section-content">
+<details id="introduction" name="thesis" class="section-dropdown">
                 <summary class="section-title">1. Introduction</summary>
                 <div class="section-content">
                     <p>Modern AI is often narrated as a sequence of technical breakthroughs: better algorithms, larger datasets, more compute. Those accounts are accurate as far as they go, yet they leave something important unstated. The systems that now exist became possible only after a broad set of independent conditions &mdash; physical, mathematical, informational, economic, institutional, and cultural &mdash; had already converged. Once that convergence occurred, the result was not merely a collection of tools but a layered structural infrastructure. That infrastructure is now stable enough to be mapped, and the mapping itself changes how further development can be understood.</p>
@@ -1699,9 +1721,11 @@ This distribution of degrees of freedom explains why some forms of innovation pr
 
                 </div>
             </details>
+                </div>
+            </details>
 
-            <details id="references" name="thesis" class="section-dropdown">
-                <summary class="section-title">11. References &amp; Acknowledgements</summary>
+            <details id="references" class="section-dropdown">
+                <summary class="section-title">References</summary>
                 <div class="section-content">
 <h3>References</h3>
 <p>Amodei, Dario, et al. <em>Concrete Problems in AI Safety.</em> arXiv preprint arXiv:1606.06565, 2016.</p>
@@ -1800,13 +1824,33 @@ Illustrative Structural Model • Not empirical telemetry
                 });
             });
 
+            // Open a dropdown together with every dropdown that contains it
+            function openWithParents(el) {
+                if (!el) return;
+                var d = el.tagName === 'DETAILS' ? el : el.closest('details');
+                while (d) {
+                    d.open = true;
+                    d = d.parentElement ? d.parentElement.closest('details') : null;
+                }
+            }
+
             // Open the matching section when a table-of-contents link is clicked
             document.querySelectorAll('nav.toc a[href^="#"]').forEach(function (a) {
                 a.addEventListener('click', function () {
-                    var target = document.querySelector(a.getAttribute('href'));
-                    if (target && target.tagName === 'DETAILS') target.open = true;
+                    openWithParents(document.querySelector(a.getAttribute('href')));
                 });
             });
+
+            // A shared link such as page.html#cross-layer-translation opens its dropdown on load
+            if (location.hash.length > 1) {
+                try {
+                    var target = document.querySelector(location.hash);
+                    if (target) {
+                        openWithParents(target);
+                        target.scrollIntoView({ block: 'start' });
+                    }
+                } catch (e) { /* ignore invalid hashes */ }
+            }
         })();
     </script>
 </body>
