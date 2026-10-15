@@ -114,7 +114,7 @@ const [layers, setLayers] = useState({
   const [direction, setDirection] = useState("forward");
   // Speed: -1 (slowest) .. 0 (default) .. +1 (fastest)
   const [speed, setSpeed] = useState(0);
-  const [openSections, setOpenSections] = useState({ state: false, layers: false });
+  const [openSections, setOpenSections] = useState({ state: true, layers: true });
   const [expanded, setExpanded] = useState(false);
 
   // Enlarged mode: lock page scroll behind the overlay and close on Esc
@@ -1442,6 +1442,119 @@ summary.section-title:hover {
                 padding-right: 0.6rem;
             }
         }
+
+        /* ---- Cross-Layer Translation diagram ---- */
+        .translation-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 2px;
+            padding: 1.5rem;
+            margin-top: 1.25rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .ct-title {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+
+        .ct-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .ct-text p:first-child { margin-top: 0; }
+
+        .ct-text p:last-child {
+            margin-bottom: 0;
+            padding: 0.75rem 1rem;
+            border-left: 3px solid var(--accent-color);
+            background: rgba(56, 189, 248, 0.06);
+            border-radius: 0 8px 8px 0;
+        }
+
+        .ct-chain {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .ct-node {
+            position: relative;
+            padding: 0.55rem 0.9rem;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border-color);
+            border-left: 3px solid var(--c);
+            border-radius: 8px;
+        }
+
+        .ct-node + .ct-node { margin-top: 1.7rem; }
+
+        .ct-name {
+            display: block;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-main);
+            line-height: 1.3;
+        }
+
+        .ct-layer {
+            display: block;
+            font-size: 0.68rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--c);
+        }
+
+        /* connector line, arrowhead and label between consecutive steps */
+        .ct-node + .ct-node::before {
+            content: "";
+            position: absolute;
+            left: 1.25rem;
+            top: -1.7rem;
+            width: 2px;
+            height: 1.7rem;
+            background: linear-gradient(var(--p), var(--c));
+        }
+
+        .ct-node + .ct-node::after {
+            content: "";
+            position: absolute;
+            left: calc(1.25rem - 4px);
+            top: -7px;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 7px solid var(--c);
+        }
+
+        .ct-becomes {
+            position: absolute;
+            left: 2.1rem;
+            top: -1.5rem;
+            font-size: 0.7rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .translation-card .ct-conclusion {
+            margin: 1.5rem 0 0;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 700px) {
+            .translation-card { padding: 1.1rem 1rem 1.25rem; }
+            .ct-grid { grid-template-columns: minmax(0, 1fr); gap: 1.25rem; }
+        }
     </style>
 </head>
 <body>
@@ -1470,7 +1583,7 @@ summary.section-title:hover {
         This thesis proposes that contemporary artificial intelligence is best understood not as a sequence of isolated technical breakthroughs but as the crystallisation of a layered infrastructural stack. Modern AI emerged only after the convergence of physical, computational, informational, institutional, economic, and human-organisational preconditions. Once these conditions aligned, they formed a stable architecture within which subsequent development primarily occurs.
         </p>
 
-        <p>This thesis introduces four concepts as explanatory mechanisms for understanding technological evolution within the AI ecosystem: Structural Layers, Cross-Layer Translation, Differential Degrees of Freedom, and Stratified Retention. Historical case studies including GPU repurposing, large-scale web data accumulation, and the emergence of transformer architectures are used to illustrate how pre-existing systems converged into the current AI infrastructure. The thesis also states the conditions under which the framework would be weakened, and the limits of its own evidence.</p>
+        <p>This thesis introduces four concepts as explanatory mechanisms for understanding technological evolution within the AI ecosystem: Structural Layers, Cross-Layer Translation, Differential Degrees of Freedom, and Stratified Retention. Of these, Cross-Layer Translation is the central claim: influence moves between layers only by being rendered into the native form of the receiving layer. Historical case studies including GPU repurposing, large-scale web data accumulation, and the emergence of transformer architectures are used to illustrate how pre-existing systems converged into the current AI infrastructure. The thesis also states the conditions under which the framework would be weakened, and the limits of its own evidence.</p>
 
         <p>
         Rather than treating AI as an isolated invention, the thesis presents it as a layered infrastructure whose future development remains shaped by path-dependent constraints, institutional pressures, and translation processes that move influence across levels of organisation.
@@ -1590,6 +1703,7 @@ as an allocation process operating across layers, determining which
 resources, information, objectives, and computations receive priority at
 any given moment.
 </p>
+<p>The preconditions described in section 3 and the layers described here are related but not identical. The preconditions are what had to converge for the stack to form; the layers are what formed. The physical and manufacturing base became Physical Infrastructure, and compute and systems engineering became Compute &amp; Transport. The mathematical foundations and the accumulated data became Data &amp; Models, and economic and institutional scaffolding became Institutional Systems. Agent Systems has no counterpart among the preconditions because it was built on them after they converged. Cultural and scientific continuity is the remaining case: it does not form a layer of its own. It persists as the accumulated knowledge, training, and norms of research communities, which are held within Institutional Systems and shape Human Objectives, and it has to be maintained by continuing human effort in the same way as the physical plant.</p>
 <h3>What Counts as a Layer</h3>
 <p>A layer is not any convenient grouping of components. For the purposes of this thesis, a candidate counts as a Structural Layer only if it meets four conditions: it is bound by constraints that are distinct from those of its neighbours; it is maintained by a recognisably distinct set of actors; it changes at a characteristic pace of its own; and its dependence on its neighbours is asymmetric, in that layers which rely on it cannot operate if it fails, whereas it can continue in some form without them. Energy systems meet all four conditions with respect to model training: they have their own physics, their own operators and their own investment cycles, and training stops without them while power grids carry on. A grouping that fails these tests, such as &ldquo;everything built after 2017&rdquo;, is a periodisation and not a layer.</p>
 
@@ -1623,7 +1737,7 @@ its formation.
                     <p>As of 2026, Agent Systems exhibit some of the largest available degrees of freedom within the stack. Systems can already navigate digital environments, use tools, maintain state, and coordinate with other agents with reduced step-by-step human prompting. This layer is still immature relative to the ones beneath it, which is why it feels open, although that assessment is time-bound: as the layer matures, its degrees of freedom may narrow as those of the lower layers have. Even here, however, agents remain dependent on the transport, data, and physical layers below them, and on the human-supplied objectives and permissions that frame their activity.</p>
 
                     <p>Institutional Systems have degrees of freedom shaped by capital markets, governance arrangements, and regulatory environments. These can change quickly in some respects, such as a funding decision, and slowly in others, such as legislation or organisational habit. Technical possibilities that fit poorly with these constraints remain marginal even when they are locally impressive.</p>
-<p>At the outermost level, Human Objectives are constrained less by engineering than by incentives, existing habits, and the willingness of people to alter their practices. Their degrees of freedom are wide in principle, since goals can be redefined, but in practice they tend to move slowly and to be shaped by what the layers below make easy.</p>
+<p>At the outermost level, Human Objectives are constrained less by engineering than by incentives, existing habits, and the willingness of people to alter their practices. Their degrees of freedom are wide in principle, since goals can be redefined, but in practice they tend to move slowly and to be shaped by what the layers below make easy. They are also plural and frequently contested, since different groups want different things from the same system, and the layers below do not weigh those wants equally.</p>
 <p>Attention is treated separately because it is not a layer but an allocation process that operates across all of them. Both human attention and algorithmic attention function as allocators, determining which computations, which data, and which goals receive resources. The degrees of freedom here include new ways of directing attention, new objective functions, and new methods of routing information through the stack. At the same time, attention remains scarce. Systems that demand unbounded attention, whether from humans or from compute, quickly encounter limits.</p>
 <p>
 This distribution of degrees of freedom explains why some forms of innovation propagate more successfully than others. Innovations that align with existing infrastructural layers, institutional incentives, available data, and established computational resources can spread rapidly through the stack. Innovations that require substantial modification of multiple layers simultaneously face greater resistance. The architecture does not prohibit novelty, but it influences which forms of novelty can be adopted, scaled, and sustained.
@@ -1652,12 +1766,13 @@ This distribution of degrees of freedom explains why some forms of innovation pr
                     <p>Although the stack is layered and each layer possesses its own degrees of freedom, influence is not confined within single levels. Processes that originate in one layer can affect the organisation and behaviour of others. This cross-layer influence is essential to the functioning of the infrastructure, yet it is also constrained. Influence must be translated into forms that the receiving layer can accept; otherwise it dissipates or produces instability.</p>
                     <p>Human Objectives and Institutional Systems operate at the outer layers, yet they continuously shape the layers beneath. Capital allocation determines which physical capacity is built. Regulatory and organisational choices set the permissions within which agents may act. Preferences and attention supply the selection pressures that decide which models are trained, which data are valued, and which capabilities are amplified. In this direction, outer-layer processes inject themselves into the inner architecture by altering its boundary conditions and its incentives.</p>
                     <p>Influence also moves upward. Patterns discovered in data and compressed into weights enable new forms of agent behaviour. Improvements in physical infrastructure and systems engineering expand the practical scope of what agents and human users can attempt. Changes in Compute &amp; Transport alter the latency, scale, and reliability of everything above them. The lower layers do not merely support the higher ones; they actively condition what is possible at those higher levels.</p>
-                    <p>A particularly significant form of cross-layer influence is now emerging in the agent layer. As systems become capable of navigating digital environments, using tools, maintaining state, and coordinating with other agents with reduced step-by-step human prompting, they begin to generate intermediate structures &mdash; code, data organisations, temporary environments, and toolchains &mdash; that subsequent agents can inhabit or extend. In this limited but growing sense, activity inside the digital layers is becoming more self-mediating. Humans continue to supply high-level objectives, economic signals, and physical maintenance, while a larger fraction of the internal traffic is handled by AI-to-AI processes.</p>
+                    <p>A particularly significant form of cross-layer influence is now emerging in the agent layer. As systems become capable of navigating digital environments, using tools, maintaining state, and coordinating with other agents with reduced step-by-step human prompting, they begin to generate intermediate structures &mdash; code, data organisations, temporary environments, and toolchains &mdash; that subsequent agents can inhabit or extend. In this limited but growing sense, activity inside the digital layers is becoming more self-mediating. Humans continue to supply high-level objectives, economic signals, and physical maintenance, while a larger fraction of the internal traffic appears to be handled by AI-to-AI processes. This is offered as a direction of change and not a measured share: no agreed measure of AI-to-AI activity is assumed here, and one would be needed to test the claim.</p>
                     <p>Cross-layer translation is the process by which influence originating in one layer is rendered into forms that can be executed within another. Influence does not move directly between layers. It must first be translated into the native constraints, representations, and mechanisms of the receiving layer. This is the central claim of the thesis, and it is stated strongly so that it can be tested (see section 8).</p>
 <h3>Worked Examples</h3>
 <p>Human objectives do not enter a model as intentions. In a widely used approach to training language models from human feedback, people&rsquo;s judgements about which outputs are better are collected as comparisons and used to train a reward model, and that reward model is then used to adjust the model&rsquo;s weights (Christiano et al., 2017; Ouyang et al., 2022). A human preference has been translated twice: first into a representation the Data &amp; Models layer can compute with, then into a training signal. At each step something is gained, namely executability, and something is lost, namely nuance. The objective that reaches the weights is a measurable proxy for the one that left the human layer.</p>
 <p>The proxy can also come apart from the intention. Reinforcement-learning systems that optimise a stated reward are known to find unintended ways of scoring well, a failure often called reward hacking or specification gaming (Amodei et al., 2016). In the vocabulary of this thesis, this is a failed translation: the form of the objective that the receiving layer could execute no longer carried the causal force of its origin. The result is the friction, waste, or fragmentation described below.</p>
 <p>A second example runs from Institutional Systems to Physical Infrastructure. A capital allocation decision is expressed in money. To become compute, it has to be translated into orders, then into fabrication capacity, power supply, and data-centre construction, each with its own lead times and constraints. Investment can be committed far faster than a semiconductor plant or a grid connection can be built. The gap between the speed of the signal and the speed of the receiving layer is a standing source of friction, and one place where reverse salients in Hughes&rsquo;s sense are likely to appear.</p>
+<p>Translation is also selective, which is where conflict between objectives enters the model. Human Objectives are plural and often contested, but a layer can execute only the objectives that can be rendered in its native form. In the first example above, the preferences that reach the weights are those of the people whose judgements were collected, expressed in the form of the comparisons they were asked to make. Objectives that are hard to measure, or that are held by people outside the collection process, are translated poorly or not at all. In the same way, an institution can turn into compute only what it can fund and justify in its own terms. Translation is therefore not a neutral channel: its forms favour some objectives over others, and control over the form of translation is a distinct kind of influence. This thesis does not analyse those struggles in detail, but the concept gives a place to locate them.</p>
                     <p>The formal problem is therefore one of translation and continuity. For influence to move cleanly from one layer to another, it must be rendered in the forms native to the receiving layer while still carrying the causal force of its origin. When this translation succeeds, the architecture remains coherent and capable of coordinated action across levels. When it fails, the system experiences friction, waste, or fragmentation. Understanding the available channels of cross-layer influence, and their limits, is essential to understanding how the crystallised infrastructure actually operates and evolves.</p>
                 </div>
             </details>
@@ -1685,6 +1800,7 @@ This distribution of degrees of freedom explains why some forms of innovation pr
 <h3>Scope and Limitations</h3>
 <p>This thesis is a conceptual and historical analysis. It does not report an empirical test, and the interactive visualisation on this page is a model of the argument and not a measurement.</p>
 <p>Three limitations follow. First, the case studies in section 3 were chosen to illustrate the framework and do not test it; a systematic comparison with other infrastructural technologies, such as electrification or the internet, would be a stronger test. Second, the layers are drawn with the benefit of hindsight. The tests in section 4 are intended to reduce the risk that any technology can be redescribed as a stack after the fact, but they do not remove it. Third, the conditions above are stated qualitatively; operational thresholds for terms such as &ldquo;comparable rate&rdquo; and &ldquo;radical change&rdquo; remain to be specified.</p>
+<p>Two limits of scope should also be stated. The thesis explains constraint, dependency, and path dependence better than it explains conflict: it treats Human Objectives and Institutional Systems as layers with shared properties and says little about how competing groups contest them, although the idea of selective translation in section 7 gives a place to locate that analysis. It is also a thesis about infrastructure and not about meaning. Cultural continuity appears as a precondition and as knowledge held within institutions, but the thesis does not examine narrative, belief, or the human experience of living inside the stack.</p>
 <p>These limits are one reason the thesis presents the framework as an explanatory aid to be revised as evidence accumulates, and not as an established theory.</p>
 
     </div>
@@ -1770,6 +1886,44 @@ framework, ARC, TFM-GL, DTSIM, C-DR to date 15/10/2026.
 
 
 
+        
+            <section class="translation-card" aria-labelledby="ct-heading">
+                <h2 id="ct-heading" class="ct-title">Cross-Layer Translation</h2>
+                <div class="ct-grid">
+                    <div class="ct-text">
+                        <p>The Structural Stack framework introduces the concept of Cross-Layer Translation.</p>
+                        <p>Traditional layered models describe how influence moves between levels of a system.</p>
+                        <p>The Structural Stack proposes that influence cannot move directly between layers. Instead, it must be translated into forms that can be executed within the native constraints, representations, and mechanisms of the receiving layer.</p>
+                    </div>
+                    <ol class="ct-chain" aria-label="Example chain of translation, from human objectives to agent action">
+                        <li class="ct-node" style="--c:#fb7185;--p:#fb7185">
+                            <span class="ct-name">Human objectives</span>
+                            <span class="ct-layer">Human Objectives</span>
+                        </li>
+                        <li class="ct-node" style="--c:#fbbf24;--p:#fb7185">
+                            <span class="ct-becomes" aria-hidden="true">becomes</span><span class="ct-name">Institutional policies</span>
+                            <span class="ct-layer">Institutional Systems</span>
+                        </li>
+                        <li class="ct-node" style="--c:#fbbf24;--p:#fbbf24">
+                            <span class="ct-becomes" aria-hidden="true">becomes</span><span class="ct-name">Resource allocation</span>
+                            <span class="ct-layer">Institutional Systems</span>
+                        </li>
+                        <li class="ct-node" style="--c:#818cf8;--p:#fbbf24">
+                            <span class="ct-becomes" aria-hidden="true">becomes</span><span class="ct-name">Computational capacity</span>
+                            <span class="ct-layer">Compute &amp; Transport</span>
+                        </li>
+                        <li class="ct-node" style="--c:#34d399;--p:#818cf8">
+                            <span class="ct-becomes" aria-hidden="true">becomes</span><span class="ct-name">Model behaviour</span>
+                            <span class="ct-layer">Data &amp; Models</span>
+                        </li>
+                        <li class="ct-node" style="--c:#f472b6;--p:#34d399">
+                            <span class="ct-becomes" aria-hidden="true">becomes</span><span class="ct-name">Agent action</span>
+                            <span class="ct-layer">Agent Systems</span>
+                        </li>
+                    </ol>
+                </div>
+                <p class="ct-conclusion">Cross-Layer Translation is therefore proposed as a fundamental mechanism linking disparate layers of technological infrastructure into a coherent system.</p>
+            </section>
         </main>
 
     <!-- RIGHT PANEL -->
@@ -1802,9 +1956,6 @@ Illustrative Structural Model • Not empirical telemetry
     </div>
 
     <script>
-        // Thesis sections behave as an accordion: opening one closes the others.
-        // Browsers that support <details name="..."> do the closing natively; this
-        // also covers older browsers and corrects scrolling after the layout shifts.
         (function () {
             var sections = Array.prototype.slice.call(
                 document.querySelectorAll('details.section-dropdown[name="thesis"]')
@@ -1824,7 +1975,6 @@ Illustrative Structural Model • Not empirical telemetry
                 });
             });
 
-            // Open a dropdown together with every dropdown that contains it
             function openWithParents(el) {
                 if (!el) return;
                 var d = el.tagName === 'DETAILS' ? el : el.closest('details');
@@ -1834,14 +1984,12 @@ Illustrative Structural Model • Not empirical telemetry
                 }
             }
 
-            // Open the matching section when a table-of-contents link is clicked
             document.querySelectorAll('nav.toc a[href^="#"]').forEach(function (a) {
                 a.addEventListener('click', function () {
                     openWithParents(document.querySelector(a.getAttribute('href')));
                 });
             });
 
-            // A shared link such as page.html#cross-layer-translation opens its dropdown on load
             if (location.hash.length > 1) {
                 try {
                     var target = document.querySelector(location.hash);
