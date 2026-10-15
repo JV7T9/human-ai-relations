@@ -114,7 +114,7 @@ const [layers, setLayers] = useState({
   const [direction, setDirection] = useState("forward");
   // Speed: -1 (slowest) .. 0 (default) .. +1 (fastest)
   const [speed, setSpeed] = useState(0);
-  const [openSections, setOpenSections] = useState({ state: true, layers: false });
+  const [openSections, setOpenSections] = useState({ state: false, layers: false });
   const [expanded, setExpanded] = useState(false);
 
   // Enlarged mode: lock page scroll behind the overlay and close on Esc
