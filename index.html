@@ -1580,6 +1580,141 @@ summary.section-title:hover {
             .ct-visual .ct-chain { display: flex; }
             .ct-grid { grid-template-columns: minmax(0, 1fr); }
         }
+
+        /* ---- Four-tile layout + collapsible model panel (enabled by script: html.tiles) ---- */
+        html.tiles .page-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 2rem 2rem 1rem;
+        }
+
+        html.tiles .content-layout { display: block; flex: 1 0 auto; }
+        html.tiles header { margin-top: 0; padding-bottom: 1rem; }
+        html.tiles footer { margin-top: 1.25rem; padding-top: 1rem; flex-shrink: 0; }
+
+        .stack-tiles {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .stack-tile {
+            font: inherit;
+            font-family: var(--font-display);
+            font-size: 0.95rem;
+            color: var(--accent-color);
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            padding: 1.1rem 1.25rem;
+            background: rgba(30, 41, 59, 0.35);
+            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 2px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .stack-tile::after {
+            content: '+';
+            font-size: 1.2rem;
+            font-weight: 300;
+            transition: transform 0.2s ease;
+        }
+
+        .stack-tile:hover { background: rgba(56, 189, 248, 0.08); }
+
+        .stack-tile[aria-expanded="true"] {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.12), 0 10px 35px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .stack-tile[aria-expanded="true"]::after { transform: rotate(45deg); }
+
+        .stack-tile:focus-visible { outline: 2px solid var(--accent-color); outline-offset: 2px; }
+
+        /* the tile is the control, so the panel needs no second header */
+        html.tiles main.thesis-panel > details.section-dropdown > summary.section-title,
+        html.tiles nav.toc > details.section-dropdown > summary.section-title { display: none; }
+
+        html.tiles main.thesis-panel > details.section-dropdown > .section-content,
+        html.tiles nav.toc > details.section-dropdown > .section-content { border-top: 0; padding-top: 1rem; }
+
+        /* a panel that is closed lives behind its tile */
+        .is-tile-hidden { display: none !important; }
+
+        /* the model panel slides in from the right instead of taking a column */
+        html.tiles .feature-panel {
+            position: fixed;
+            top: 0;
+            right: -520px;
+            bottom: 0;
+            width: min(450px, 92vw);
+            padding: 4.5rem 1rem 1rem;
+            overflow-y: auto;
+            z-index: 900;
+            background: rgba(15, 23, 42, 0.96);
+            border-left: 1px solid var(--border-color);
+            box-shadow: -12px 0 40px rgba(0, 0, 0, 0.45);
+            transition: right 0.3s ease, visibility 0s linear 0.3s;
+            visibility: hidden;
+        }
+
+        html.tiles body.model-open .feature-panel {
+            right: 0;
+            visibility: visible;
+            transition: right 0.3s ease, visibility 0s;
+        }
+
+        html.tiles body.wg-expanded .feature-panel { position: fixed; }
+
+        html.tiles .widget-section { margin-bottom: 1rem; }
+
+        .model-toggle {
+            position: fixed;
+            top: 0.9rem;
+            right: 1rem;
+            z-index: 950;
+            font: inherit;
+            font-family: var(--font-display);
+            font-size: 0.7rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--accent-color);
+            cursor: pointer;
+            padding: 0.55rem 0.9rem;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(56, 189, 248, 0.45);
+            border-radius: 2px;
+        }
+
+        .model-toggle:hover { background: rgba(56, 189, 248, 0.12); }
+        .model-toggle:focus-visible { outline: 2px solid var(--accent-color); outline-offset: 2px; }
+
+        /* keep the page inside one screen until a panel is opened */
+        html.tiles .translation-card { margin-top: 0; padding: 1.1rem 1.5rem 1.25rem; }
+        html.tiles .translation-card .ct-grid { gap: 1.5rem; }
+        html.tiles .translation-card .ct-text p { margin-top: 0.6rem; margin-bottom: 0.6rem; }
+
+        @media (min-width: 701px) {
+            html.tiles .translation-card .ct-grid { grid-template-columns: minmax(0, 560px) auto; justify-content: center; gap: 3.5rem; align-items: center; }
+            html.tiles .ct-svg { width: auto; height: clamp(230px, calc(100vh - 545px), 540px); max-width: 100%; }
+            html.tiles .ct-visual { display: flex; flex-direction: column; align-items: flex-start; }
+            html.tiles .ct-visual figcaption { margin-top: 0.4rem; }
+        }
+
+        @media (max-width: 700px) {
+            html.tiles .page-container { padding: 3.5rem 1rem 1rem; }
+            .stack-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.6rem; }
+            .stack-tile { padding: 0.9rem 0.9rem; font-size: 0.8rem; }
+            .model-toggle { font-size: 0.62rem; top: 0.7rem; right: 0.7rem; }
+        }
     </style>
 </head>
 <body>
@@ -2072,6 +2207,87 @@ Illustrative Structural Model • Not empirical telemetry
                         target.scrollIntoView({ block: 'start' });
                     }
                 } catch (e) { /* ignore invalid hashes */ }
+            }
+        })();
+    </script>
+
+    <script>
+        // Four tiles open the four top-level panels; the model panel is a side drawer.
+        (function () {
+            var main = document.querySelector('main.thesis-panel');
+            if (!main) return;
+            var abstractEl = main.querySelector(':scope > details.section-dropdown');
+            var tocNav = main.querySelector(':scope > nav.toc');
+            var panels = [
+                { name: 'Abstract', wrap: abstractEl, det: abstractEl },
+                { name: 'Table of Contents', wrap: tocNav, det: tocNav && tocNav.querySelector('details') },
+                { name: 'Thesis Content', wrap: document.getElementById('thesis-content'), det: document.getElementById('thesis-content') },
+                { name: 'References', wrap: document.getElementById('references'), det: document.getElementById('references') }
+            ];
+            for (var i = 0; i < panels.length; i++) { if (!panels[i].wrap || !panels[i].det) return; }
+
+            var row = document.createElement('div');
+            row.className = 'stack-tiles';
+            row.setAttribute('role', 'group');
+            row.setAttribute('aria-label', 'Thesis panels');
+            main.insertBefore(row, main.firstChild);
+
+            function sync() {
+                panels.forEach(function (p) {
+                    p.wrap.classList.toggle('is-tile-hidden', !p.det.open);
+                    p.btn.setAttribute('aria-expanded', p.det.open ? 'true' : 'false');
+                });
+            }
+
+            panels.forEach(function (p) {
+                var b = document.createElement('button');
+                b.type = 'button';
+                b.className = 'stack-tile';
+                b.setAttribute('aria-expanded', 'false');
+                b.setAttribute('aria-controls', p.det.id || '');
+                b.textContent = p.name;
+                p.btn = b;
+                row.appendChild(b);
+                b.addEventListener('click', function () {
+                    var willOpen = !p.det.open;
+                    panels.forEach(function (o) { if (o !== p) o.det.open = false; });
+                    p.det.open = willOpen;
+                    sync();
+                    if (willOpen) {
+                        var r = p.wrap.getBoundingClientRect();
+                        if (r.top > window.innerHeight * 0.6) p.wrap.scrollIntoView({ block: 'start' });
+                    }
+                });
+                p.det.addEventListener('toggle', function () {
+                    if (p.det.open) panels.forEach(function (o) { if (o !== p) o.det.open = false; });
+                    sync();
+                });
+            });
+
+            // links and shared URLs open inner sections programmatically, which fires toggle
+            document.documentElement.classList.add('tiles');
+            sync();
+
+            // model panel drawer
+            var aside = document.querySelector('aside.feature-panel');
+            if (aside) {
+                var t = document.createElement('button');
+                t.type = 'button';
+                t.className = 'model-toggle';
+                t.setAttribute('aria-expanded', 'false');
+                t.setAttribute('aria-controls', 'model-panel');
+                aside.id = 'model-panel';
+                function setModel(open) {
+                    document.body.classList.toggle('model-open', open);
+                    t.setAttribute('aria-expanded', open ? 'true' : 'false');
+                    t.textContent = open ? '[ − ] Close model' : '[ + ] Structural Stack Model';
+                }
+                t.addEventListener('click', function () { setModel(!document.body.classList.contains('model-open')); });
+                document.addEventListener('keydown', function (e) {
+                    if (e.key === 'Escape' && document.body.classList.contains('model-open') && !document.body.classList.contains('wg-expanded')) setModel(false);
+                });
+                setModel(false);
+                document.body.appendChild(t);
             }
         })();
     </script>
