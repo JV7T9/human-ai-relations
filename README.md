@@ -6,6 +6,10 @@ visualisation of that stack.
 
 **Live page:** https://jv7t9.github.io/human-ai-relations/
 
+## Core contribution
+
+The central claim is **cross-layer translation**: influence does not move directly between the layers of the stack. It has to be rendered into the native constraints, representations, and mechanisms of the receiving layer, and it meets friction where translation fails. The thesis works through examples (human preferences becoming a reward signal, reward hacking as failed translation, capital allocation becoming chip supply) and states what evidence would weaken the claim. The other concepts, Structural Layers, differential degrees of freedom, and stratified retention, describe the stack in which translation operates.
+
 ## What is in the thesis
 
 The preconditions that converged, how they formed six Structural Layers, the
