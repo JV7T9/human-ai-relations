@@ -114,7 +114,7 @@ const [layers, setLayers] = useState({
   const [direction, setDirection] = useState("forward");
   // Speed: -1 (slowest) .. 0 (default) .. +1 (fastest)
   const [speed, setSpeed] = useState(0);
-  const [openSections, setOpenSections] = useState({ state: false, layers: true });
+  const [openSections, setOpenSections] = useState({ state: false, layers: false });
   const [expanded, setExpanded] = useState(false);
 
   // Enlarged mode: lock page scroll behind the overlay and close on Esc
@@ -1649,36 +1649,7 @@ summary.section-title:hover {
         html.tiles main.thesis-panel > details.section-dropdown > .section-content,
         html.tiles nav.toc > details.section-dropdown > .section-content { border-top: 0; padding-top: 1rem; }
 
-        /* the model panel starts closed: header only, the model keeps its real size behind it */
         html.tiles .widget-section { margin-bottom: 1rem; }
-
-        html.tiles .widget-header {
-            cursor: pointer;
-            user-select: none;
-            justify-content: space-between;
-            transition: background-color 0.2s ease;
-        }
-
-        html.tiles .widget-header:hover { background: rgba(56, 189, 248, 0.08); }
-        html.tiles .widget-header:focus-visible { outline: 2px solid var(--accent-color); outline-offset: -2px; }
-
-        html.tiles .widget-header::after {
-            content: '+';
-            font-size: 1.2rem;
-            font-weight: 300;
-            transition: transform 0.2s ease;
-        }
-
-        html.tiles .widget-section.is-open .widget-header::after { transform: rotate(45deg); }
-
-        html.tiles .widget-section:not(.is-open) > #widget-root {
-            height: 0;
-            overflow: hidden;
-            visibility: hidden;
-        }
-
-        html.tiles .widget-section:not(.is-open) > .model-note { display: none; }
-        html.tiles .widget-section:not(.is-open) > .widget-header { border-bottom: 0; }
 
         /* keep the page inside one screen until a panel is opened */
         html.tiles .translation-card { margin-top: 0; padding: 1.1rem 1.5rem 1.25rem; }
@@ -2204,7 +2175,7 @@ Illustrative Structural Model • Not empirical telemetry
     </script>
 
     <script>
-        // Four tiles open the four top-level panels; the model panel opens from its header.
+        // Four tiles open the four top-level panels.
         (function () {
             var main = document.querySelector('main.thesis-panel');
             if (!main) return;
@@ -2259,24 +2230,6 @@ Illustrative Structural Model • Not empirical telemetry
 
             document.documentElement.classList.add('tiles');
             sync();
-
-            // model panel: closed until its header is clicked
-            var sec = document.querySelector('aside.feature-panel .widget-section');
-            var head = sec && sec.querySelector('.widget-header');
-            if (head) {
-                head.setAttribute('role', 'button');
-                head.setAttribute('tabindex', '0');
-                head.setAttribute('aria-expanded', 'false');
-                function setOpen(open) {
-                    sec.classList.toggle('is-open', open);
-                    head.setAttribute('aria-expanded', open ? 'true' : 'false');
-                }
-                head.addEventListener('click', function () { setOpen(!sec.classList.contains('is-open')); });
-                head.addEventListener('keydown', function (e) {
-                    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setOpen(!sec.classList.contains('is-open')); }
-                });
-                setOpen(false);
-            }
         })();
     </script>
 </body>
