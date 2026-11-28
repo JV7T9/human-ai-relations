@@ -1581,7 +1581,7 @@ summary.section-title:hover {
             .ct-grid { grid-template-columns: minmax(0, 1fr); }
         }
 
-        /* ---- Four-tile layout + collapsible model panel (enabled by script: html.tiles) ---- */
+        /* ---- Four tiles across the left panel + collapsible model panel (enabled by script: html.tiles) ---- */
         html.tiles .page-container {
             min-height: 100vh;
             display: flex;
@@ -1589,29 +1589,30 @@ summary.section-title:hover {
             padding: 2rem 2rem 1rem;
         }
 
-        html.tiles .content-layout { display: block; flex: 1 0 auto; }
-        html.tiles header { margin-top: 0; padding-bottom: 1rem; }
+        html.tiles .content-layout { flex: 1 0 auto; }
+        html.tiles header { margin-top: 0; padding-bottom: 1rem; margin-bottom: 1.25rem; }
         html.tiles footer { margin-top: 1.25rem; padding-top: 1rem; flex-shrink: 0; }
 
         .stack-tiles {
             display: grid;
             grid-template-columns: repeat(4, minmax(0, 1fr));
-            gap: 1rem;
+            gap: 0.75rem;
             margin-bottom: 1.25rem;
         }
 
         .stack-tile {
             font: inherit;
             font-family: var(--font-display);
-            font-size: 0.95rem;
+            font-size: 0.8rem;
+            line-height: 1.35;
             color: var(--accent-color);
             text-align: left;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 0.75rem;
-            padding: 1.1rem 1.25rem;
+            gap: 0.6rem;
+            padding: 1rem 1rem;
             background: rgba(30, 41, 59, 0.35);
             -webkit-backdrop-filter: blur(12px);
             backdrop-filter: blur(12px);
@@ -1625,6 +1626,7 @@ summary.section-title:hover {
             content: '+';
             font-size: 1.2rem;
             font-weight: 300;
+            flex-shrink: 0;
             transition: transform 0.2s ease;
         }
 
@@ -1636,84 +1638,74 @@ summary.section-title:hover {
         }
 
         .stack-tile[aria-expanded="true"]::after { transform: rotate(45deg); }
-
         .stack-tile:focus-visible { outline: 2px solid var(--accent-color); outline-offset: 2px; }
 
-        /* the tile is the control, so the panel needs no second header */
+        /* a panel that is closed lives behind its tile, and the tile is its only control */
+        .is-tile-hidden { display: none !important; }
+
         html.tiles main.thesis-panel > details.section-dropdown > summary.section-title,
         html.tiles nav.toc > details.section-dropdown > summary.section-title { display: none; }
 
         html.tiles main.thesis-panel > details.section-dropdown > .section-content,
         html.tiles nav.toc > details.section-dropdown > .section-content { border-top: 0; padding-top: 1rem; }
 
-        /* a panel that is closed lives behind its tile */
-        .is-tile-hidden { display: none !important; }
+        /* the model panel starts closed: header only, the model keeps its real size behind it */
+        html.tiles .widget-section { margin-bottom: 1rem; }
 
-        /* the model panel slides in from the right instead of taking a column */
-        html.tiles .feature-panel {
-            position: fixed;
-            top: 0;
-            right: -520px;
-            bottom: 0;
-            width: min(450px, 92vw);
-            padding: 4.5rem 1rem 1rem;
-            overflow-y: auto;
-            z-index: 900;
-            background: rgba(15, 23, 42, 0.96);
-            border-left: 1px solid var(--border-color);
-            box-shadow: -12px 0 40px rgba(0, 0, 0, 0.45);
-            transition: right 0.3s ease, visibility 0s linear 0.3s;
+        html.tiles .widget-header {
+            cursor: pointer;
+            user-select: none;
+            justify-content: space-between;
+            transition: background-color 0.2s ease;
+        }
+
+        html.tiles .widget-header:hover { background: rgba(56, 189, 248, 0.08); }
+        html.tiles .widget-header:focus-visible { outline: 2px solid var(--accent-color); outline-offset: -2px; }
+
+        html.tiles .widget-header::after {
+            content: '+';
+            font-size: 1.2rem;
+            font-weight: 300;
+            transition: transform 0.2s ease;
+        }
+
+        html.tiles .widget-section.is-open .widget-header::after { transform: rotate(45deg); }
+
+        html.tiles .widget-section:not(.is-open) > #widget-root {
+            height: 0;
+            overflow: hidden;
             visibility: hidden;
         }
 
-        html.tiles body.model-open .feature-panel {
-            right: 0;
-            visibility: visible;
-            transition: right 0.3s ease, visibility 0s;
-        }
-
-        html.tiles body.wg-expanded .feature-panel { position: fixed; }
-
-        html.tiles .widget-section { margin-bottom: 1rem; }
-
-        .model-toggle {
-            position: fixed;
-            top: 0.9rem;
-            right: 1rem;
-            z-index: 950;
-            font: inherit;
-            font-family: var(--font-display);
-            font-size: 0.7rem;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: var(--accent-color);
-            cursor: pointer;
-            padding: 0.55rem 0.9rem;
-            background: rgba(15, 23, 42, 0.9);
-            border: 1px solid rgba(56, 189, 248, 0.45);
-            border-radius: 2px;
-        }
-
-        .model-toggle:hover { background: rgba(56, 189, 248, 0.12); }
-        .model-toggle:focus-visible { outline: 2px solid var(--accent-color); outline-offset: 2px; }
+        html.tiles .widget-section:not(.is-open) > .model-note { display: none; }
+        html.tiles .widget-section:not(.is-open) > .widget-header { border-bottom: 0; }
 
         /* keep the page inside one screen until a panel is opened */
         html.tiles .translation-card { margin-top: 0; padding: 1.1rem 1.5rem 1.25rem; }
-        html.tiles .translation-card .ct-grid { gap: 1.5rem; }
         html.tiles .translation-card .ct-text p { margin-top: 0.6rem; margin-bottom: 0.6rem; }
+        html.tiles .translation-card .ct-conclusion { margin-top: 1rem; padding-top: 0.75rem; }
+        html.tiles .translation-card .ct-conclusion,
+        html.tiles .translation-card .ct-more { margin-bottom: 0; }
 
-        @media (min-width: 701px) {
-            html.tiles .translation-card .ct-grid { grid-template-columns: minmax(0, 560px) auto; justify-content: center; gap: 3.5rem; align-items: center; }
-            html.tiles .ct-svg { width: auto; height: clamp(230px, calc(100vh - 545px), 540px); max-width: 100%; }
-            html.tiles .ct-visual { display: flex; flex-direction: column; align-items: flex-start; }
-            html.tiles .ct-visual figcaption { margin-top: 0.4rem; }
+        /* shorter laptop screens: tighten spacing so as much as possible stays in view */
+        @media (min-width: 1101px) and (max-height: 860px) {
+            html.tiles .page-container { padding-top: 1rem; padding-bottom: 0.5rem; }
+            html.tiles header { padding-bottom: 0.6rem; margin-bottom: 0.9rem; }
+            html.tiles header h1 { font-size: 1.5rem; margin-bottom: 0.25rem; }
+            html.tiles .stack-tiles { margin-bottom: 0.9rem; }
+            html.tiles .stack-tile { padding: 0.75rem 0.9rem; }
+            html.tiles .translation-card { padding: 0.8rem 1.25rem 0.9rem; }
+            html.tiles .translation-card .ct-text p { font-size: 0.86rem; margin-top: 0.4rem; margin-bottom: 0.4rem; }
+            html.tiles .translation-card .ct-text p:last-child { padding: 0.5rem 0.8rem; }
+            html.tiles .translation-card .ct-conclusion, html.tiles .translation-card .ct-more { font-size: 0.85rem; margin-top: 0.5rem; }
+            html.tiles .translation-card .ct-conclusion { margin-top: 0.7rem; padding-top: 0.5rem; }
+            html.tiles footer { margin-top: 0.6rem; padding-top: 0.5rem; }
         }
 
         @media (max-width: 700px) {
-            html.tiles .page-container { padding: 3.5rem 1rem 1rem; }
+            html.tiles .page-container { padding: 1.5rem 1rem 1rem; }
             .stack-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.6rem; }
-            .stack-tile { padding: 0.9rem 0.9rem; font-size: 0.8rem; }
-            .model-toggle { font-size: 0.62rem; top: 0.7rem; right: 0.7rem; }
+            .stack-tile { padding: 0.9rem 0.9rem; }
         }
     </style>
 </head>
@@ -2212,7 +2204,7 @@ Illustrative Structural Model • Not empirical telemetry
     </script>
 
     <script>
-        // Four tiles open the four top-level panels; the model panel is a side drawer.
+        // Four tiles open the four top-level panels; the model panel opens from its header.
         (function () {
             var main = document.querySelector('main.thesis-panel');
             if (!main) return;
@@ -2244,7 +2236,7 @@ Illustrative Structural Model • Not empirical telemetry
                 b.type = 'button';
                 b.className = 'stack-tile';
                 b.setAttribute('aria-expanded', 'false');
-                b.setAttribute('aria-controls', p.det.id || '');
+                if (p.det.id) b.setAttribute('aria-controls', p.det.id);
                 b.textContent = p.name;
                 p.btn = b;
                 row.appendChild(b);
@@ -2258,36 +2250,32 @@ Illustrative Structural Model • Not empirical telemetry
                         if (r.top > window.innerHeight * 0.6) p.wrap.scrollIntoView({ block: 'start' });
                     }
                 });
+                // links and shared URLs open panels programmatically, which fires toggle
                 p.det.addEventListener('toggle', function () {
                     if (p.det.open) panels.forEach(function (o) { if (o !== p) o.det.open = false; });
                     sync();
                 });
             });
 
-            // links and shared URLs open inner sections programmatically, which fires toggle
             document.documentElement.classList.add('tiles');
             sync();
 
-            // model panel drawer
-            var aside = document.querySelector('aside.feature-panel');
-            if (aside) {
-                var t = document.createElement('button');
-                t.type = 'button';
-                t.className = 'model-toggle';
-                t.setAttribute('aria-expanded', 'false');
-                t.setAttribute('aria-controls', 'model-panel');
-                aside.id = 'model-panel';
-                function setModel(open) {
-                    document.body.classList.toggle('model-open', open);
-                    t.setAttribute('aria-expanded', open ? 'true' : 'false');
-                    t.textContent = open ? '[ − ] Close model' : '[ + ] Structural Stack Model';
+            // model panel: closed until its header is clicked
+            var sec = document.querySelector('aside.feature-panel .widget-section');
+            var head = sec && sec.querySelector('.widget-header');
+            if (head) {
+                head.setAttribute('role', 'button');
+                head.setAttribute('tabindex', '0');
+                head.setAttribute('aria-expanded', 'false');
+                function setOpen(open) {
+                    sec.classList.toggle('is-open', open);
+                    head.setAttribute('aria-expanded', open ? 'true' : 'false');
                 }
-                t.addEventListener('click', function () { setModel(!document.body.classList.contains('model-open')); });
-                document.addEventListener('keydown', function (e) {
-                    if (e.key === 'Escape' && document.body.classList.contains('model-open') && !document.body.classList.contains('wg-expanded')) setModel(false);
+                head.addEventListener('click', function () { setOpen(!sec.classList.contains('is-open')); });
+                head.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setOpen(!sec.classList.contains('is-open')); }
                 });
-                setModel(false);
-                document.body.appendChild(t);
+                setOpen(false);
             }
         })();
     </script>
